@@ -13,4 +13,6 @@ public interface drawingDAO {
     public void changeDrawingStatus(int id, boolean status);
     public List<drawing> getDrawingsByUserId(int id);
     public List<drawing> getDrawingsByPublicStatus();
+    public drawingVersion getCurrentVersion(int id);
+    public boolean isDrawingOwner(int drawingId, int userId);
 }

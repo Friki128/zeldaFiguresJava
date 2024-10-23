@@ -32,6 +32,9 @@ public class userService {
     public List<user> getAllUsers(){
         return userDAO.getAllUsers();
     }
+    public user getUserById(int id){
+        return userDAO.getUserById(id);
+    }
     public void removeUser(int id){
         userDAO.removeUser(id);
     }
