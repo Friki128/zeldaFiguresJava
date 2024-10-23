@@ -1,7 +1,4 @@
-package model;
-
-import java.util.ArrayList;
-import java.util.List;
+package Model;
 
 public class user {
     int id;

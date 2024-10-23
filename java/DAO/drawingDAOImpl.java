@@ -1,7 +1,7 @@
 package DAO;
 
-import model.drawing;
-import model.drawingVersion;
+import Model.drawing;
+import Model.drawingVersion;
 
 import java.util.ArrayList;
 import java.util.List;
