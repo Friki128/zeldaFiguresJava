@@ -55,4 +55,10 @@ public class drawing {
     public void setVersions(List<drawingVersion> versions) {
         this.versions = versions;
     }
+    public void addVersion(drawingVersion drawingVersion){
+        versions.add(drawingVersion);
+    }
+    public void removeVersion(drawingVersion drawingVersion){
+        versions.remove(drawingVersion);
+    }
 }
