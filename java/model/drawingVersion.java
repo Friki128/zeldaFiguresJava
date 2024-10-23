@@ -4,12 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class drawingVersion {
+
+    int id;
     String date;
     List<drawingItem> components = new ArrayList<>();
 
-    public drawingVersion(String date, List<drawingItem> components) {
+    public drawingVersion(int id, String date, List<drawingItem> components) {
+        this.id = id;
         this.date = date;
         this.components = components;
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     public String getDate() {

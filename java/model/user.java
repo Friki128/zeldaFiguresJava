@@ -4,14 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class user {
+    int id;
     String name;
     String password;
-    List<drawing> drawings = new ArrayList<>();
 
-    public user(String name, String password, List<drawing> drawings) {
+    public user(int id, String name, String password) {
+        this.id = id;
         this.name = name;
         this.password = password;
-        this.drawings = drawings;
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     public String getName() {
@@ -28,13 +36,5 @@ public class user {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<drawing> getDrawings() {
-        return drawings;
-    }
-
-    public void setDrawings(List<drawing> drawings) {
-        this.drawings = drawings;
     }
 }

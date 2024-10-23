@@ -1,18 +1,26 @@
 package model;
 
 public class drawingItem {
+    int id;
     String name;
     String type;
     String color;
     int width;
 
-    public drawingItem(String name, String type, String color, int width) {
+    public drawingItem(int id, String name, String type, String color, int width) {
+        this.id = id;
         this.name = name;
         this.type = type;
         this.color = color;
         this.width = width;
     }
 
+    public int getId(){
+        return id;
+    }
+    public void setId(int id){
+        this.id = id;
+    }
     public String getName() {
         return name;
     }

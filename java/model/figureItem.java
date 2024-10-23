@@ -4,8 +4,8 @@ public class figureItem extends drawingItem{
     position position;
     int height;
 
-    public figureItem(String name, String type, String color, int width, model.position position, int height) {
-        super(name, type, color, width);
+    public figureItem(int id, String name, String type, String color, int width, model.position position, int height) {
+        super(id, name, type, color, width);
         this.position = position;
         this.height = height;
     }
