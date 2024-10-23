@@ -1,6 +1,7 @@
 package Services;
 
 import DAO.userDAOImpl;
+import Exceptions.*;
 import Model.user;
 
 import javax.crypto.SecretKeyFactory;
@@ -21,7 +22,9 @@ public class userService {
         String hashedPassword = hashPassword(password);
         return userDAO.getUserByNameAndPassword(name, hashedPassword);
     }
-    public user register(String name, String password){
+    public user register(String name, String password) throws passwordLengthException, nameAlreadyInUseException {
+        if (password.length() < 6) throw new passwordLengthException();
+        if (getUserByName(name) != null) throw new nameAlreadyInUseException();
         user user = new user(nextUserId(), name, password);
         userDAO.addUser(user);
         return user;
