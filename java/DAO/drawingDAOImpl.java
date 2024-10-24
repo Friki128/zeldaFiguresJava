@@ -85,4 +85,24 @@ public class drawingDAOImpl implements drawingDAO{
         drawing drawing = getDrawingById(drawingId);
         return drawing.getUser().getId() == userId;
     }
+
+    @Override
+    public boolean isDrawingVisible(int userId, int drawingId) {
+        return isDrawingOwner(drawingId, userId) || getDrawingById(drawingId).isStatus();
+    }
+
+    @Override
+    public void changeDrawingName(int drawingId, String name) {
+        drawing drawing = getDrawingById(drawingId);
+        drawing.setName(name);
+    }
+
+    @Override
+    public drawingVersion getVersion(int drawingId, int versionId) {
+        drawing drawing = getDrawingById(drawingId);
+        for(drawingVersion version : drawing.getVersions()){
+            if (version.getId() == versionId) return version;
+        }
+        return null;
+    }
 }

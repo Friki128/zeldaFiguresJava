@@ -15,4 +15,8 @@ public interface drawingDAO {
     public List<drawing> getDrawingsByPublicStatus();
     public drawingVersion getCurrentVersion(int id);
     public boolean isDrawingOwner(int drawingId, int userId);
+    public boolean isDrawingVisible(int userId, int drawingId);
+    public void changeDrawingName(int drawingId, String name);
+
+    drawingVersion getVersion(int drawingId, int versionId);
 }

@@ -38,4 +38,10 @@ public class drawingVersion {
     public void setComponents(List<drawingItem> components) {
         this.components = components;
     }
+    public void addComponent(drawingItem component){
+        components.add(component);
+    }
+    public int getNumberOfComponents(){
+        return components.size();
+    }
 }
