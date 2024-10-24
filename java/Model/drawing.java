@@ -1,6 +1,5 @@
 package Model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class drawing {
@@ -8,7 +7,7 @@ public class drawing {
     String name;
     boolean status;
     user user;
-    List<drawingVersion> versions = new ArrayList<>();
+    List<drawingVersion> versions;
 
     public drawing(int id, String name, boolean status, user user,List<drawingVersion> versions) {
         this.id = id;

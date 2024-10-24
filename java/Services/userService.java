@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.util.Arrays;
 import java.util.List;
 
 public class userService {
@@ -32,7 +33,8 @@ public class userService {
     public List<user> getAllUsers(){
         return userDAO.getAllUsers();
     }
-    public user getUserById(int id){
+    public user getUserById(int id) throws userDoesNotExistException {
+        if(!checkUserExistence(id)) throw new userDoesNotExistException();
         return userDAO.getUserById(id);
     }
     public void removeUser(int id){
@@ -50,7 +52,7 @@ public class userService {
         try {
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             byte[] hash = factory.generateSecret(spec).getEncoded();
-            return hash.toString();
+            return Arrays.toString(hash);
         } catch (NoSuchAlgorithmException e) {
             return password;
         } catch (InvalidKeySpecException e) {

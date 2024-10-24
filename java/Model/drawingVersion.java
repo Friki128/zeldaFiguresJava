@@ -2,14 +2,11 @@ package Model;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class drawingVersion {
 
     int id;
     String date;
-    String items = "";
+    String items;
 
     public drawingVersion(int id, String date, String items) {
         this.id = id;

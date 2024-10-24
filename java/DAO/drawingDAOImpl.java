@@ -42,7 +42,7 @@ public class drawingDAOImpl implements drawingDAO{
     public void removeVersionOffDrawing(int drawingId, int versionId) {
         drawing drawing = getDrawingById(drawingId);
         for (drawingVersion version : drawing.getVersions()){
-            if (version.getId() == versionId) drawing.addVersion(version);
+            if (version.getId() == versionId) drawing.removeVersion(version);
         }
     }
 
