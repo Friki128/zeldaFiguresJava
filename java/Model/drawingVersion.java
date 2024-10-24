@@ -1,5 +1,7 @@
 package Model;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,12 +9,12 @@ public class drawingVersion {
 
     int id;
     String date;
-    List<drawingItem> components = new ArrayList<>();
+    String items = "";
 
-    public drawingVersion(int id, String date, List<drawingItem> components) {
+    public drawingVersion(int id, String date, String items) {
         this.id = id;
         this.date = date;
-        this.components = components;
+        this.items = items;
     }
 
     public int getId(){
@@ -31,17 +33,15 @@ public class drawingVersion {
         this.date = date;
     }
 
-    public List<drawingItem> getComponents() {
-        return components;
+    public String getItems() {
+        return items;
     }
 
-    public void setComponents(List<drawingItem> components) {
-        this.components = components;
-    }
-    public void addComponent(drawingItem component){
-        components.add(component);
+    public void setItems(String items) {
+        this.items = items;
     }
     public int getNumberOfComponents(){
-        return components.size();
+        JSONObject object = new JSONObject(items);
+        return object.length();
     }
 }

@@ -3,9 +3,9 @@ package Services;
 import DAO.drawingDAOImpl;
 import Exceptions.notPublicException;
 import Model.drawing;
-import Model.drawingItem;
 import Model.drawingVersion;
 import Model.user;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class drawingService {
     int drawingId = 0;
     int versionId = 0;
     public void addDrawing(String name, user user){
-        drawingVersion version = new drawingVersion(nextVersionId(), getDate(), new ArrayList<>());
+        drawingVersion version = new drawingVersion(nextVersionId(), getDate(), "{}");
         List<drawingVersion> versions = new ArrayList<>();
         versions.add(version);
         drawing drawing = new drawing(nextDrawingId(),name,false, user, versions);
@@ -48,8 +48,8 @@ public class drawingService {
     public drawingVersion getVersion(int drawingId, int versionId){
         return drawingDAO.getVersion(drawingId, versionId);
     }
-    public void addVersion(int drawingId, String itemList){
-        drawingVersion version = new drawingVersion(nextVersionId(), getDate(), new ArrayList<>());
+    public void addVersion(int drawingId, String items){
+        drawingVersion version = new drawingVersion(nextVersionId(), getDate(), items);
         drawingDAO.addVersionOffDrawing(drawingId, version);
     }
     public void removeVersion(int drawingId, int versionId){
@@ -57,14 +57,19 @@ public class drawingService {
     }
     public void fuseDrawings(List<Integer> drawings, String name, user user) throws notPublicException {
         drawing drawing = new drawing(nextDrawingId(), name, false, user, new ArrayList<>());
-        drawingVersion version = new drawingVersion(nextVersionId(), getDate(), new ArrayList<>());
+        drawingVersion version = new drawingVersion(nextVersionId(), getDate(), "{}");
+        JSONObject object = new JSONObject();
         for (Integer id : drawings){
                if (!isDrawingVisible(user.getId(), id)) throw new notPublicException();
                drawingVersion nextVersion = drawingDAO.getCurrentVersion(id);
-               for(drawingItem item : nextVersion.getComponents()){
-                   version.addComponent(item);
-               }
+               JSONObject nextJSON = new JSONObject(nextVersion.getItems());
+               for(String key : JSONObject.getNames(nextJSON))
+                {
+                    object.put(key, nextJSON.get(key));
+                }
+
         }
+        version.setItems(object.toString());
         drawing.addVersion(version);
         drawingDAO.addDrawing(drawing);
     }

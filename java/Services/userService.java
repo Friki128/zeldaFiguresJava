@@ -57,4 +57,7 @@ public class userService {
             throw new RuntimeException(e);
         }
     }
+    private boolean checkUserExistence(int id){
+        return userDAO.getUserById(id) != null;
+    }
 }
