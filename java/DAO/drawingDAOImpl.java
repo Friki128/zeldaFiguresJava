@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class drawingDAOImpl implements drawingDAO{
-    List<drawing> drawings = new ArrayList<>();
+    static List<drawing> drawings = new ArrayList<>();
     @Override
     public void addDrawing(drawing drawing) {
         drawings.add(drawing);

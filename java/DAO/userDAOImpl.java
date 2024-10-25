@@ -7,7 +7,7 @@ import java.util.List;
 
 public class userDAOImpl implements userDAO {
 
-    List<user> users = new ArrayList<>();
+    static List<user> users = new ArrayList<>();
 
     @Override
     public void addUser(user user) {
