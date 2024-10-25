@@ -51,6 +51,11 @@ public class drawingService {
         return drawingDAO.getCurrentVersion(drawingId);
     }
 
+    public List<drawingVersion> getVersions(int drawingId, user user) throws notPublicException {
+        drawing drawing = getDrawingById(drawingId, user);
+        return drawing.getVersions();
+    }
+
     public drawingVersion getVersion(int drawingId, int versionId, user user) throws notPublicException {
         if(!isDrawingVisible(user, drawingId)) throw new notPublicException();
         return drawingDAO.getVersion(drawingId, versionId);
