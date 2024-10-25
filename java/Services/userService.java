@@ -23,10 +23,12 @@ public class userService {
         String hashedPassword = hashPassword(password);
         return userDAO.getUserByNameAndPassword(name, hashedPassword);
     }
-    public user register(String name, String password) throws passwordLengthException, nameAlreadyInUseException {
+    public user register(String name, String password) throws passwordLengthException, nameAlreadyInUseException, emtyNameException {
         if (password.length() < 6) throw new passwordLengthException();
-        if (getUserByName(name) != null) throw new nameAlreadyInUseException();
-        user user = new user(nextUserId(), name, password);
+        String fixedName = name.replace(" ", "");
+        if(fixedName.equals("")) throw new emtyNameException();
+        if (getUserByName(fixedName) != null) throw new nameAlreadyInUseException();
+        user user = new user(nextUserId(), fixedName, password);
         userDAO.addUser(user);
         return user;
     }
