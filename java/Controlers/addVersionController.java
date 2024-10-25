@@ -25,9 +25,7 @@ public class addVersionController extends HttpServlet {
             drawingService.addVersion(id, user, picture);
             resp.sendRedirect("/viewUserDrawings");
         } catch (notOwnerException e) {
-            req.setAttribute("error", "Can't add a new version to a drawing you don't own.");
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/errorPage.jsp");
-            requestDispatcher.forward(req, resp);
+            errorController.redirectError("Can't add a new version to a drawing you don't own.", req, resp);
         }
     }
 }

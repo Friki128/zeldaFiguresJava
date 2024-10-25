@@ -32,9 +32,7 @@ public class viewVersionsOfDrawingController extends HttpServlet {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/viewVersions.jsp");
             requestDispatcher.forward(req, resp);
         } catch (notPublicException e) {
-            req.setAttribute("error", "Couldn't access versions of the drawing since the drawing isn't Public");
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/errorPage.jsp");
-            requestDispatcher.forward(req, resp);
+            errorController.redirectError("Couldn't access versions of the drawing since the drawing isn't Public", req, resp);
         }
     }
 }

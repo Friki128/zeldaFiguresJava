@@ -24,9 +24,7 @@ public class updateDrawingPublicStatusController extends HttpServlet {
             drawingService.changeDrawingPublicStatus(id, user, status);
             resp.sendRedirect("/viewDrawing?id=" + id);
         } catch (notOwnerException e) {
-            req.setAttribute("error", "CAnnot change the status of a drawing you aren't the owner of.");
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/errorPage.jsp");
-            requestDispatcher.forward(req, resp);
+            errorController.redirectError("Cannot change the status of a drawing you aren't the owner of.", req, resp);
         }
     }
 }

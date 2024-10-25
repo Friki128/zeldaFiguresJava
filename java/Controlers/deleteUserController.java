@@ -34,9 +34,7 @@ public class deleteUserController extends HttpServlet {
             req.getSession().removeAttribute("user");
             resp.sendRedirect("/login");
         } catch (notOwnerException e) {
-            req.setAttribute("error", "Couldn't delete a drawing because the user isn't owner");
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/errorPage.jsp");
-            requestDispatcher.forward(req, resp);
+           errorController.redirectError("Couldn't delete user because drawing is not proprietary", req, resp);
         }
     }
 }

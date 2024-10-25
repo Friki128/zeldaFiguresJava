@@ -25,13 +25,9 @@ public class updateDrawingNameController extends HttpServlet {
             drawingService.changeDrawingName(id, user, name);
             resp.sendRedirect("/viewDrawing?id=" + id);
         } catch (notOwnerException e) {
-            req.setAttribute("error", "Can't change drawing name without being the owner.");
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/errorPage.jsp");
-            requestDispatcher.forward(req, resp);
+            errorController.redirectError("Can't change drawing name without being the owner.", req, resp);
         } catch (emtyNameException e) {
-            req.setAttribute("error", "The name can't be empty");
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/errorPage.jsp");
-            requestDispatcher.forward(req, resp);
+            errorController.redirectError("The name can't be empty", req, resp);
         }
 
     }

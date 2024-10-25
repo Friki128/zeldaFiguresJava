@@ -24,9 +24,7 @@ public class addDrawingController extends HttpServlet {
             drawingService.addDrawing(name, user);
             resp.sendRedirect("/viewUserDrawings");
         } catch (emtyNameException e) {
-            req.setAttribute("error", "The name cannot be empty.");
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/errorPage.jsp");
-            requestDispatcher.forward(req, resp);
+            errorController.redirectError("The name cannot be empty.", req, resp);
         }
     }
 }
