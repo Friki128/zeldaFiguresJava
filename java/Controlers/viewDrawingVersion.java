@@ -13,26 +13,28 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet(value = "/viewVersionsOfDrawing")
-public class viewVersionsOfDrawingController extends HttpServlet {
+@WebServlet(value = "/viewDrawingVersion")
+public class viewDrawingVersion extends HttpServlet {
     drawingService drawingService = new drawingService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         user user = (Model.user) req.getSession().getAttribute("user");
-        int drawingId = Integer.parseInt(req.getParameter("id"));
+        int drawingId = Integer.parseInt(req.getParameter("drawingId"));
+        int versionId = Integer.parseInt(req.getParameter("versionId"));
         try {
-            List<drawingVersion> versions = drawingService.getVersions(drawingId, user);
+            drawingVersion version = drawingService.getVersion(drawingId, versionId, user);
             drawing drawing = drawingService.getDrawingById(drawingId, user);
-            req.setAttribute("versions", versions);
             req.setAttribute("name", drawing.getName());
             req.setAttribute("drawingId", drawing.getId());
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/viewVersions.jsp");
+            req.setAttribute("versionId", version.getId());
+            req.setAttribute("date", version.getDate());
+            req.setAttribute("elements", version.getNumberOfComponents());
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/viewVersion.jsp");
             requestDispatcher.forward(req, resp);
         } catch (notPublicException e) {
-            req.setAttribute("error", "Couldn't access versions of the drawing since the drawing isn't Public");
+            req.setAttribute("error", "Can't access this version of the drawing since it isn't public.");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/errorPage.jsp");
             requestDispatcher.forward(req, resp);
         }
