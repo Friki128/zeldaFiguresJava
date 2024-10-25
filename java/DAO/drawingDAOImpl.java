@@ -73,6 +73,7 @@ public class drawingDAOImpl implements drawingDAO{
     @Override
     public drawingVersion getCurrentVersion(int id) {
         drawing drawing = getDrawingById(id);
+        if(drawing.getVersions().isEmpty()) return null;
         drawingVersion result = drawing.getVersions().get(0);
         for (drawingVersion version : drawing.getVersions()){
             if (version.getId() > result.getId()) result = version;
@@ -109,6 +110,7 @@ public class drawingDAOImpl implements drawingDAO{
     @Override
     public drawingVersion getEarliestVersion(int drawingId, int id) {
         drawing drawing = getDrawingById(id);
+        if(drawing.getVersions().isEmpty()) return null;
         drawingVersion result = drawing.getVersions().get(0);
         for (drawingVersion version : drawing.getVersions()){
             if (version.getId() < result.getId()) result = version;

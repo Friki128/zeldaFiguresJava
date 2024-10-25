@@ -27,13 +27,20 @@ public class viewDrawing extends HttpServlet {
             drawing drawing = drawingService.getDrawingById(id, user);
             drawingVersion currentVersion = drawingService.getLatestVersion(id, user);
             drawingVersion earliestVersion = drawingService.getEarliestVersion(id, user);
-            req.setAttribute("updateDate", currentVersion.getDate());
-            req.setAttribute("creationDate", currentVersion.getDate());
             req.setAttribute("drawingId", drawing.getId());
-            req.setAttribute("versionId", currentVersion.getId());
             req.setAttribute("name", drawing.getName());
-            req.setAttribute("elements", currentVersion.getNumberOfComponents());
             req.setAttribute("creator", drawing.getUser().getName());
+            if(currentVersion == null){
+                req.setAttribute("updateDate", "None");
+                req.setAttribute("creationDate", "None");
+                req.setAttribute("versionId", 0);
+                req.setAttribute("elements", 0);
+            }else{
+                req.setAttribute("updateDate", currentVersion.getDate());
+                req.setAttribute("creationDate", earliestVersion.getDate());
+                req.setAttribute("versionId", currentVersion.getId());
+                req.setAttribute("elements", currentVersion.getNumberOfComponents());
+            }
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/viewVersion.jsp");
             requestDispatcher.forward(req, resp);
         } catch (notPublicException e) {
