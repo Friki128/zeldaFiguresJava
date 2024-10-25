@@ -128,4 +128,9 @@ public class drawingService {
     private boolean checkVersionExistence(int drawingId, int versionId){
         return drawingDAO.getVersion(drawingId, versionId) != null;
     }
+
+    public drawingVersion getEarliestVersion(int drawingId, user user) throws notPublicException {
+        if(!isDrawingVisible(user, drawingId)) throw new notPublicException();
+        return drawingDAO.getEarliestVersion(drawingId, user.getId());
+    }
 }

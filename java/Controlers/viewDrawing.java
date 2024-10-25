@@ -14,31 +14,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/viewDrawingVersion")
-public class viewDrawingVersion extends HttpServlet {
+@WebServlet(value = "/viewDrawing")
+public class viewDrawing extends HttpServlet {
     drawingService drawingService = new drawingService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         user user = (Model.user) req.getSession().getAttribute("user");
-        int drawingId = Integer.parseInt(req.getParameter("drawingId"));
-        int versionId = Integer.parseInt(req.getParameter("versionId"));
+        int id = Integer.parseInt(req.getParameter("id"));
         try {
-            drawingVersion version = drawingService.getVersion(drawingId, versionId, user);
-            drawing drawing = drawingService.getDrawingById(drawingId, user);
-            drawingVersion original = drawingService.getEarliestVersion(drawingId, user);
-            req.setAttribute("name", drawing.getName());
+            drawing drawing = drawingService.getDrawingById(id, user);
+            drawingVersion currentVersion = drawingService.getLatestVersion(id, user);
+            drawingVersion earliestVersion = drawingService.getEarliestVersion(id, user);
+            req.setAttribute("updateDate", currentVersion.getDate());
+            req.setAttribute("creationDate", currentVersion.getDate());
             req.setAttribute("drawingId", drawing.getId());
-            req.setAttribute("versionId", version.getId());
-            req.setAttribute("updateDate", version.getDate());
-            req.setAttribute("creationDate", original.getDate());
-            req.setAttribute("elements", version.getNumberOfComponents());
+            req.setAttribute("versionId", currentVersion.getId());
+            req.setAttribute("name", drawing.getName());
+            req.setAttribute("elements", currentVersion.getNumberOfComponents());
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/viewVersion.jsp");
             requestDispatcher.forward(req, resp);
         } catch (notPublicException e) {
-            req.setAttribute("error", "Can't access this version of the drawing since it isn't public.");
+            req.setAttribute("error", "Couldn't get version because drawing isn't public.");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/errorPage.jsp");
             requestDispatcher.forward(req, resp);
         }
+
     }
 }

@@ -18,4 +18,6 @@ public interface drawingDAO {
     boolean isDrawingVisible(int userId, int drawingId);
     void changeDrawingName(int drawingId, String name);
     drawingVersion getVersion(int drawingId, int versionId);
+
+    drawingVersion getEarliestVersion(int drawingId, int id);
 }
