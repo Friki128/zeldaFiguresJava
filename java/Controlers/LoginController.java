@@ -30,7 +30,7 @@ public class LoginController extends HttpServlet {
         String password = req.getParameter("password");
         user user = userService.login(name, password);
         if(user != null){
-            req.getSession().setAttribute("client", user);
+            req.getSession().setAttribute("user", user);
             resp.sendRedirect("/");
         }else{
             req.setAttribute("error", "Name and/or Password incorrect. Could not login.");

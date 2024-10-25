@@ -23,14 +23,13 @@ public class userService {
         String hashedPassword = hashPassword(password);
         return userDAO.getUserByNameAndPassword(name, hashedPassword);
     }
-    public user register(String name, String password) throws passwordLengthException, nameAlreadyInUseException, emtyNameException {
+    public void register(String name, String password) throws passwordLengthException, nameAlreadyInUseException, emtyNameException {
         if (password.length() < 6) throw new passwordLengthException();
         String fixedName = name.replace(" ", "");
-        if(fixedName.equals("")) throw new emtyNameException();
+        if(fixedName.isEmpty()) throw new emtyNameException();
         if (getUserByName(fixedName) != null) throw new nameAlreadyInUseException();
         user user = new user(nextUserId(), fixedName, password);
         userDAO.addUser(user);
-        return user;
     }
     public List<user> getAllUsers(){
         return userDAO.getAllUsers();
@@ -39,8 +38,8 @@ public class userService {
         if(!checkUserExistence(id)) throw new userDoesNotExistException();
         return userDAO.getUserById(id);
     }
-    public void removeUser(int id){
-        userDAO.removeUser(id);
+    public void removeUser(user user){
+        userDAO.removeUser(user.getId());
     }
     private int nextUserId(){
         nextId += 1;
