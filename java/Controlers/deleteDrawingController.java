@@ -21,6 +21,7 @@ public class deleteDrawingController extends HttpServlet {
         user user = (Model.user) req.getSession().getAttribute("user");
         try {
             drawingService.deleteDrawing(drawingId, user);
+            resp.sendRedirect("/viewUserDrawings");
         } catch (notOwnerException e) {
             req.setAttribute("error", "Cannot delete drawing because the user isn't the owner.");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/errorPage.jsp");

@@ -22,6 +22,7 @@ public class deleteVersionController extends HttpServlet {
         user user = (Model.user) req.getSession().getAttribute("user");
         try {
             drawingService.removeVersion(drawingId, user, versionId);
+            resp.sendRedirect("/viewDrawing?id=" + drawingId);
         } catch (notOwnerException e) {
             req.setAttribute("error", "Cannot remove a version of a drawing you don't own");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/errorPage.jsp");

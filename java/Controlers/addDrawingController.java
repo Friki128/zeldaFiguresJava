@@ -1,6 +1,6 @@
 package Controlers;
 
-import Exceptions.notOwnerException;
+import Exceptions.emtyNameException;
 import Model.user;
 import Services.drawingService;
 
@@ -12,19 +12,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/updateDrawingPublicStatus")
-public class updateDrawingPublicStatusController extends HttpServlet {
+@WebServlet(value = "/addDrawing")
+public class addDrawingController extends HttpServlet {
     drawingService drawingService = new drawingService();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         user user = (Model.user) req.getSession().getAttribute("user");
-        int id = Integer.parseInt(req.getParameter("id"));
-        boolean status = Boolean.parseBoolean(req.getParameter("status"));
         try {
-            drawingService.changeDrawingPublicStatus(id, user, status);
-            resp.sendRedirect("/viewDrawing?id=" + id);
-        } catch (notOwnerException e) {
-            req.setAttribute("error", "CAnnot change the status of a drawing you aren't the owner of.");
+            drawingService.addDrawing("New Drawing", user);
+            resp.sendRedirect("/viewUserDrawings");
+        } catch (emtyNameException e) {
+            req.setAttribute("error", "The name cannot be empty.");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/errorPage.jsp");
             requestDispatcher.forward(req, resp);
         }

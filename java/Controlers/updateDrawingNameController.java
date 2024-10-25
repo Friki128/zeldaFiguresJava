@@ -1,5 +1,6 @@
 package Controlers;
 
+import Exceptions.emtyNameException;
 import Exceptions.notOwnerException;
 import Model.user;
 import Services.drawingService;
@@ -22,11 +23,17 @@ public class updateDrawingNameController extends HttpServlet {
         user user = (Model.user) req.getSession().getAttribute("user");
         try {
             drawingService.changeDrawingName(id, user, name);
+            resp.sendRedirect("/viewDrawing?id=" + id);
         } catch (notOwnerException e) {
             req.setAttribute("error", "Can't change drawing name without being the owner.");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/errorPage.jsp");
+            requestDispatcher.forward(req, resp);
+        } catch (emtyNameException e) {
+            req.setAttribute("error", "The name can't be empty");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/errorPage.jsp");
             requestDispatcher.forward(req, resp);
         }
 
     }
+
 }

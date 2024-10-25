@@ -30,13 +30,13 @@ public class deleteUserController extends HttpServlet {
         user user = (Model.user) req.getSession().getAttribute("user");
         try {
             drawingService.deleteUserDrawings(user);
+            userService.removeUser(user);
+            req.getSession().removeAttribute("user");
+            resp.sendRedirect("/login");
         } catch (notOwnerException e) {
             req.setAttribute("error", "Couldn't delete a drawing because the user isn't owner");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/errorPage.jsp");
             requestDispatcher.forward(req, resp);
         }
-        userService.removeUser(user);
-        req.getSession().removeAttribute("user");
-        resp.sendRedirect("/login");
     }
 }
