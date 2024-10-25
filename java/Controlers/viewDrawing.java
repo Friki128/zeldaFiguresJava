@@ -32,6 +32,7 @@ public class viewDrawing extends HttpServlet {
             req.setAttribute("versionId", currentVersion.getId());
             req.setAttribute("name", drawing.getName());
             req.setAttribute("elements", currentVersion.getNumberOfComponents());
+            req.setAttribute("creator", drawing.getUser().getName());
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/viewVersion.jsp");
             requestDispatcher.forward(req, resp);
         } catch (notPublicException e) {

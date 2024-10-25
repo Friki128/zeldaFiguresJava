@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/viewDrawingVersion")
-public class viewDrawingVersion extends HttpServlet {
+@WebServlet(value = "/editVersion")
+public class editDrawingVersionController extends HttpServlet {
     drawingService drawingService = new drawingService();
 
     @Override
@@ -24,20 +24,15 @@ public class viewDrawingVersion extends HttpServlet {
         int drawingId = Integer.parseInt(req.getParameter("drawingId"));
         int versionId = Integer.parseInt(req.getParameter("versionId"));
         try {
-            drawingVersion version = drawingService.getVersion(drawingId, versionId, user);
             drawing drawing = drawingService.getDrawingById(drawingId, user);
-            drawingVersion original = drawingService.getEarliestVersion(drawingId, user);
+            drawingVersion version = drawingService.getVersion(drawingId, versionId, user);
             req.setAttribute("name", drawing.getName());
             req.setAttribute("drawingId", drawing.getId());
-            req.setAttribute("versionId", version.getId());
-            req.setAttribute("updateDate", version.getDate());
-            req.setAttribute("creationDate", original.getDate());
-            req.setAttribute("elements", version.getNumberOfComponents());
-            req.setAttribute("creator", drawing.getUser().getName());
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/viewVersion.jsp");
+            req.setAttribute("picture", version.getItems());
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/editDrawing.jsp");
             requestDispatcher.forward(req, resp);
         } catch (notPublicException e) {
-            errorController.redirectError("Can't access this version of the drawing since it isn't public.", req, resp);
+            errorController.redirectError("Cannot edit a private drawing.", req, resp);
         }
     }
 }
