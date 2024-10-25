@@ -24,9 +24,13 @@ public class drawingService {
         drawing drawing = new drawing(nextDrawingId(),name,false, user, versions);
         drawingDAO.addDrawing(drawing);
     }
-    public void deleteDrawing(int drawingId, int userId) throws notOwnerException {
-        if(!isUserOwnerOfDrawing(userId, drawingId)) throw new notOwnerException();
+    public void deleteDrawing(int drawingId, user user) throws notOwnerException {
+        if(!isUserOwnerOfDrawing(user, drawingId)) throw new notOwnerException();
         drawingDAO.removeDrawing(drawingId);
+    }
+    public void deleteUserDrawings(user user) throws notOwnerException {
+        List<drawing> userDrawings = getUserDrawings(user);
+        for(drawing drawing : userDrawings) deleteDrawing(drawing.getId(), user);
     }
     public List<drawing> getAllDrawings(){
         return drawingDAO.getAllDrawings();
@@ -34,30 +38,30 @@ public class drawingService {
     public List<drawing> getPublicDrawings(){
         return drawingDAO.getDrawingsByPublicStatus();
     }
-    public drawing getDrawingById(int drawingId, int userId) throws notPublicException {
-        if(!isDrawingVisible(userId, drawingId)) throw new notPublicException();
+    public drawing getDrawingById(int drawingId, user user) throws notPublicException {
+        if(!isDrawingVisible(user, drawingId)) throw new notPublicException();
         return drawingDAO.getDrawingById(drawingId);
     }
 
-    public List<drawing> getUserDrawings(int userId){
-        return drawingDAO.getDrawingsByUserId(userId);
+    public List<drawing> getUserDrawings(user user){
+        return drawingDAO.getDrawingsByUserId(user.getId());
     }
-    public drawingVersion getLatestVersion(int drawingId, int userId) throws notPublicException {
-        if(!isDrawingVisible(userId, drawingId)) throw new notPublicException();
+    public drawingVersion getLatestVersion(int drawingId, user user) throws notPublicException {
+        if(!isDrawingVisible(user, drawingId)) throw new notPublicException();
         return drawingDAO.getCurrentVersion(drawingId);
     }
 
-    public drawingVersion getVersion(int drawingId, int versionId, int userId) throws notPublicException {
-        if(!isDrawingVisible(userId, drawingId)) throw new notPublicException();
+    public drawingVersion getVersion(int drawingId, int versionId, user user) throws notPublicException {
+        if(!isDrawingVisible(user, drawingId)) throw new notPublicException();
         return drawingDAO.getVersion(drawingId, versionId);
     }
-    public void addVersion(int drawingId, int userId,String items) throws notOwnerException {
-        if(!isUserOwnerOfDrawing(userId, drawingId)) throw new notOwnerException();
+    public void addVersion(int drawingId, user user,String items) throws notOwnerException {
+        if(!isUserOwnerOfDrawing(user, drawingId)) throw new notOwnerException();
         drawingVersion version = new drawingVersion(nextVersionId(), getDate(), items);
         drawingDAO.addVersionOffDrawing(drawingId, version);
     }
-    public void removeVersion(int drawingId, int userId ,int versionId) throws notOwnerException {
-        if(!isUserOwnerOfDrawing(userId, drawingId)) throw new notOwnerException();
+    public void removeVersion(int drawingId, user user ,int versionId) throws notOwnerException {
+        if(!isUserOwnerOfDrawing(user, drawingId)) throw new notOwnerException();
         drawingDAO.removeVersionOffDrawing(drawingId, versionId);
     }
     public void fuseDrawings(List<Integer> drawings, String name, user user) throws notPublicException {
@@ -66,7 +70,7 @@ public class drawingService {
         JSONObject object = new JSONObject();
         int iterant = 0;
         for (Integer id : drawings){
-               if (!isDrawingVisible(user.getId(), id)) throw new notPublicException();
+               if (!isDrawingVisible(user, id)) throw new notPublicException();
                drawingVersion nextVersion = drawingDAO.getCurrentVersion(id);
                JSONObject nextJSON = new JSONObject(nextVersion.getItems());
                for(String key : JSONObject.getNames(nextJSON))
@@ -81,24 +85,24 @@ public class drawingService {
         drawingDAO.addDrawing(drawing);
     }
     public void duplicate(int drawingId, user user) throws notPublicException {
-        drawing drawing = getDrawingById(drawingId, user.getId());
+        drawing drawing = getDrawingById(drawingId, user);
         drawing newDrawing = new drawing(nextDrawingId(), drawing.getName() + "_copy", false, user, new ArrayList<>());
         newDrawing.addVersion(drawingDAO.getCurrentVersion(drawingId));
         drawingDAO.addDrawing(newDrawing);
     }
-    public boolean isUserOwnerOfDrawing(int userId, int drawingId){
-        return drawingDAO.isDrawingOwner(drawingId, userId);
+    public boolean isUserOwnerOfDrawing(user user, int drawingId){
+        return drawingDAO.isDrawingOwner(drawingId, user.getId());
     }
-    public void changeDrawingPublicStatus(int drawingId, int userId,boolean status) throws notOwnerException {
-        if(!isUserOwnerOfDrawing(userId, drawingId)) throw new notOwnerException();
+    public void changeDrawingPublicStatus(int drawingId, user user,boolean status) throws notOwnerException {
+        if(!isUserOwnerOfDrawing(user, drawingId)) throw new notOwnerException();
         drawingDAO.changeDrawingStatus(drawingId, status);
     }
-    public void changeDrawingName(int drawingId, int userId,String name) throws notOwnerException {
-        if(!isUserOwnerOfDrawing(userId, drawingId)) throw new notOwnerException();
+    public void changeDrawingName(int drawingId, user user,String name) throws notOwnerException {
+        if(!isUserOwnerOfDrawing(user, drawingId)) throw new notOwnerException();
         drawingDAO.changeDrawingName(drawingId, name);
     }
-    public boolean isDrawingVisible(int userId, int drawingId){
-        return drawingDAO.isDrawingVisible(userId, drawingId);
+    public boolean isDrawingVisible(user user, int drawingId){
+        return drawingDAO.isDrawingVisible(user.getId(), drawingId);
     }
     private int nextDrawingId(){
         drawingId += 1;
