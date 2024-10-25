@@ -1,5 +1,6 @@
 package Controlers;
 
+import Exceptions.drawingDoesNotExistException;
 import Exceptions.emtyNameException;
 import Exceptions.notOwnerException;
 import Model.user;
@@ -28,6 +29,8 @@ public class updateDrawingNameController extends HttpServlet {
             errorController.redirectError("Can't change drawing name without being the owner.", req, resp);
         } catch (emtyNameException e) {
             errorController.redirectError("The name can't be empty", req, resp);
+        } catch (drawingDoesNotExistException e) {
+            errorController.redirectError("The Drawing doesn't exist", req, resp);
         }
 
     }

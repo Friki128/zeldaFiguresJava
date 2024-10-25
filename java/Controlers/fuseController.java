@@ -1,5 +1,6 @@
 package Controlers;
 
+import Exceptions.drawingDoesNotExistException;
 import Exceptions.emtyNameException;
 import Exceptions.notPublicException;
 import Model.user;
@@ -34,6 +35,8 @@ public class fuseController extends HttpServlet {
            errorController.redirectError("Cannot fuse with a drawing that isn't public.", req, resp);
         } catch (emtyNameException e) {
             errorController.redirectError("The name of the drawing cannot be empty", req, resp);
+        } catch (drawingDoesNotExistException e) {
+            errorController.redirectError("The Drawing doesn't exist", req, resp);
         }
     }
 }

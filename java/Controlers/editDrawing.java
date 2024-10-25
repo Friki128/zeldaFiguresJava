@@ -1,5 +1,6 @@
 package Controlers;
 
+import Exceptions.drawingDoesNotExistException;
 import Exceptions.notPublicException;
 import Model.drawing;
 import Model.drawingVersion;
@@ -32,6 +33,8 @@ public class editDrawing extends HttpServlet {
             requestDispatcher.forward(req, resp);
         } catch (notPublicException e) {
             errorController.redirectError("Cannot edit a private drawing.", req, resp);
+        } catch (drawingDoesNotExistException e) {
+            errorController.redirectError("The Drawing doesn't exist", req, resp);
         }
     }
 }

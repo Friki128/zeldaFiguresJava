@@ -1,5 +1,6 @@
 package Controlers;
 
+import Exceptions.drawingDoesNotExistException;
 import Exceptions.notOwnerException;
 import Model.user;
 import Services.drawingService;
@@ -26,6 +27,8 @@ public class addVersionController extends HttpServlet {
             resp.sendRedirect("/viewUserDrawings");
         } catch (notOwnerException e) {
             errorController.redirectError("Can't add a new version to a drawing you don't own.", req, resp);
+        } catch (drawingDoesNotExistException e) {
+            errorController.redirectError("The Drawing doesn't exist", req, resp);
         }
     }
 }

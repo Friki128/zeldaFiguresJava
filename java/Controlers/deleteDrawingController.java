@@ -1,5 +1,6 @@
 package Controlers;
 
+import Exceptions.drawingDoesNotExistException;
 import Exceptions.notOwnerException;
 import Model.user;
 import Services.drawingService;
@@ -24,6 +25,8 @@ public class deleteDrawingController extends HttpServlet {
             resp.sendRedirect("/viewUserDrawings");
         } catch (notOwnerException e) {
             errorController.redirectError("Cannot delete drawing because the user isn't the owner.", req, resp);
+        } catch (drawingDoesNotExistException e) {
+            errorController.redirectError("The Drawing doesn't exist", req, resp);
         }
     }
 }

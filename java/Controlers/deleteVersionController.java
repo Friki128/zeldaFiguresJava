@@ -1,6 +1,8 @@
 package Controlers;
 
+import Exceptions.drawingDoesNotExistException;
 import Exceptions.notOwnerException;
+import Exceptions.versionDoesNotExistException;
 import Services.drawingService;
 import Model.user;
 
@@ -25,6 +27,10 @@ public class deleteVersionController extends HttpServlet {
             resp.sendRedirect("/viewDrawing?id=" + drawingId);
         } catch (notOwnerException e) {
             errorController.redirectError("Couldn't delete version because user is not the owner.", req, resp);
+        } catch (versionDoesNotExistException e) {
+            errorController.redirectError("The version doesn't exist", req, resp);
+        } catch (drawingDoesNotExistException e) {
+            errorController.redirectError("The Drawing doesn't exist", req, resp);
         }
     }
 }

@@ -1,5 +1,6 @@
 package Controlers;
 
+import Exceptions.drawingDoesNotExistException;
 import Exceptions.notPublicException;
 import Model.drawing;
 import Model.drawingVersion;
@@ -33,6 +34,8 @@ public class viewVersionsOfDrawingController extends HttpServlet {
             requestDispatcher.forward(req, resp);
         } catch (notPublicException e) {
             errorController.redirectError("Couldn't access versions of the drawing since the drawing isn't Public", req, resp);
+        } catch (drawingDoesNotExistException e) {
+            errorController.redirectError("The drawing doesn't exist.", req, resp);
         }
     }
 }

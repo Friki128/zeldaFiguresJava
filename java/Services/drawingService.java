@@ -1,9 +1,7 @@
 package Services;
 
 import DAO.drawingDAOImpl;
-import Exceptions.emtyNameException;
-import Exceptions.notOwnerException;
-import Exceptions.notPublicException;
+import Exceptions.*;
 import Model.drawing;
 import Model.drawingVersion;
 import Model.user;
@@ -24,11 +22,12 @@ public class drawingService {
         drawing drawing = new drawing(nextDrawingId(),fixedName,false, user, new ArrayList<>());
         drawingDAO.addDrawing(drawing);
     }
-    public void deleteDrawing(int drawingId, user user) throws notOwnerException {
+    public void deleteDrawing(int drawingId, user user) throws notOwnerException, drawingDoesNotExistException {
         if(!isUserOwnerOfDrawing(user, drawingId)) throw new notOwnerException();
+        if(!checkDrawingExistence(drawingId)) throw new drawingDoesNotExistException();
         drawingDAO.removeDrawing(drawingId);
     }
-    public void deleteUserDrawings(user user) throws notOwnerException {
+    public void deleteUserDrawings(user user) throws notOwnerException, drawingDoesNotExistException {
         List<drawing> userDrawings = getUserDrawings(user);
         for(drawing drawing : userDrawings) deleteDrawing(drawing.getId(), user);
     }
@@ -38,38 +37,41 @@ public class drawingService {
     public List<drawing> getPublicDrawings(){
         return drawingDAO.getDrawingsByPublicStatus();
     }
-    public drawing getDrawingById(int drawingId, user user) throws notPublicException {
+    public drawing getDrawingById(int drawingId, user user) throws notPublicException, drawingDoesNotExistException {
         if(!isDrawingVisible(user, drawingId)) throw new notPublicException();
+        if(!checkDrawingExistence(drawingId)) throw new drawingDoesNotExistException();
         return drawingDAO.getDrawingById(drawingId);
     }
 
     public List<drawing> getUserDrawings(user user){
         return drawingDAO.getDrawingsByUserId(user.getId());
     }
-    public drawingVersion getLatestVersion(int drawingId, user user) throws notPublicException {
+    public drawingVersion getLatestVersion(int drawingId, user user) throws notPublicException, drawingDoesNotExistException {
         if(!isDrawingVisible(user, drawingId)) throw new notPublicException();
         return drawingDAO.getCurrentVersion(drawingId);
     }
 
-    public List<drawingVersion> getVersions(int drawingId, user user) throws notPublicException {
+    public List<drawingVersion> getVersions(int drawingId, user user) throws notPublicException, drawingDoesNotExistException {
         drawing drawing = getDrawingById(drawingId, user);
         return drawing.getVersions();
     }
 
-    public drawingVersion getVersion(int drawingId, int versionId, user user) throws notPublicException {
+    public drawingVersion getVersion(int drawingId, int versionId, user user) throws notPublicException, versionDoesNotExistException, drawingDoesNotExistException {
         if(!isDrawingVisible(user, drawingId)) throw new notPublicException();
+        if(!checkVersionExistence(drawingId, versionId)) throw new versionDoesNotExistException();
         return drawingDAO.getVersion(drawingId, versionId);
     }
-    public void addVersion(int drawingId, user user,String items) throws notOwnerException {
+    public void addVersion(int drawingId, user user,String items) throws notOwnerException, drawingDoesNotExistException {
         if(!isUserOwnerOfDrawing(user, drawingId)) throw new notOwnerException();
         drawingVersion version = new drawingVersion(nextVersionId(), getDate(), items);
         drawingDAO.addVersionOffDrawing(drawingId, version);
     }
-    public void removeVersion(int drawingId, user user ,int versionId) throws notOwnerException {
+    public void removeVersion(int drawingId, user user ,int versionId) throws notOwnerException, versionDoesNotExistException, drawingDoesNotExistException {
         if(!isUserOwnerOfDrawing(user, drawingId)) throw new notOwnerException();
+        if(!checkVersionExistence(drawingId, versionId)) throw new versionDoesNotExistException();
         drawingDAO.removeVersionOffDrawing(drawingId, versionId);
     }
-    public void fuseDrawings(List<Integer> drawings, String name, user user) throws notPublicException, emtyNameException {
+    public void fuseDrawings(List<Integer> drawings, String name, user user) throws notPublicException, emtyNameException, drawingDoesNotExistException {
         String fixedName = name.trim();
         if(fixedName.isEmpty()) throw new emtyNameException();
         drawing drawing = new drawing(nextDrawingId(), fixedName, false, user, new ArrayList<>());
@@ -78,6 +80,7 @@ public class drawingService {
         int iterant = 0;
         for (Integer id : drawings){
                if (!isDrawingVisible(user, id)) throw new notPublicException();
+               if(!checkDrawingExistence(id)) throw new drawingDoesNotExistException();
                drawingVersion nextVersion = drawingDAO.getCurrentVersion(id);
                JSONObject nextJSON = new JSONObject(nextVersion.getItems());
                for(String key : JSONObject.getNames(nextJSON))
@@ -91,26 +94,28 @@ public class drawingService {
         drawing.addVersion(version);
         drawingDAO.addDrawing(drawing);
     }
-    public void duplicate(int drawingId, user user) throws notPublicException {
+    public void duplicate(int drawingId, user user) throws notPublicException, drawingDoesNotExistException {
         drawing drawing = getDrawingById(drawingId, user);
         drawing newDrawing = new drawing(nextDrawingId(), drawing.getName() + "_copy", false, user, new ArrayList<>());
         newDrawing.addVersion(drawingDAO.getCurrentVersion(drawingId));
         drawingDAO.addDrawing(newDrawing);
     }
-    public boolean isUserOwnerOfDrawing(user user, int drawingId){
+    public boolean isUserOwnerOfDrawing(user user, int drawingId) throws drawingDoesNotExistException {
+        if(!checkDrawingExistence(drawingId)) throw new drawingDoesNotExistException();
         return drawingDAO.isDrawingOwner(drawingId, user.getId());
     }
-    public void changeDrawingPublicStatus(int drawingId, user user,boolean status) throws notOwnerException {
+    public void changeDrawingPublicStatus(int drawingId, user user,boolean status) throws notOwnerException, drawingDoesNotExistException {
         if(!isUserOwnerOfDrawing(user, drawingId)) throw new notOwnerException();
         drawingDAO.changeDrawingStatus(drawingId, status);
     }
-    public void changeDrawingName(int drawingId, user user,String name) throws notOwnerException, emtyNameException {
+    public void changeDrawingName(int drawingId, user user,String name) throws notOwnerException, emtyNameException, drawingDoesNotExistException {
         if(!isUserOwnerOfDrawing(user, drawingId)) throw new notOwnerException();
         String fixedName = name.trim();
         if(fixedName.isEmpty()) throw new emtyNameException();
         drawingDAO.changeDrawingName(drawingId, fixedName);
     }
-    public boolean isDrawingVisible(user user, int drawingId){
+    public boolean isDrawingVisible(user user, int drawingId) throws drawingDoesNotExistException {
+        if(!checkDrawingExistence(drawingId)) throw new drawingDoesNotExistException();
         return drawingDAO.isDrawingVisible(user.getId(), drawingId);
     }
     private int nextDrawingId(){
@@ -133,7 +138,7 @@ public class drawingService {
         return drawingDAO.getVersion(drawingId, versionId) != null;
     }
 
-    public drawingVersion getEarliestVersion(int drawingId, user user) throws notPublicException {
+    public drawingVersion getEarliestVersion(int drawingId, user user) throws notPublicException, drawingDoesNotExistException {
         if(!isDrawingVisible(user, drawingId)) throw new notPublicException();
         return drawingDAO.getEarliestVersion(drawingId, user.getId());
     }

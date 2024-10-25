@@ -1,5 +1,6 @@
 package Controlers;
 
+import Exceptions.drawingDoesNotExistException;
 import Exceptions.notPublicException;
 import Model.user;
 import Services.drawingService;
@@ -24,6 +25,8 @@ public class cloneController extends HttpServlet {
             resp.sendRedirect("/viewUserDrawings");
         } catch (notPublicException e) {
             errorController.redirectError("Cannot clone a drawing that isn't public", req, resp);
+        } catch (drawingDoesNotExistException e) {
+            errorController.redirectError("The Drawing doesn't exist", req, resp);
         }
     }
 }

@@ -1,5 +1,6 @@
 package Controlers;
 
+import Exceptions.drawingDoesNotExistException;
 import Exceptions.notOwnerException;
 import Model.user;
 import Services.drawingService;
@@ -25,6 +26,8 @@ public class updateDrawingPublicStatusController extends HttpServlet {
             resp.sendRedirect("/viewDrawing?id=" + id);
         } catch (notOwnerException e) {
             errorController.redirectError("Cannot change the status of a drawing you aren't the owner of.", req, resp);
+        } catch (drawingDoesNotExistException e) {
+            errorController.redirectError("The Drawing doesn't exist", req, resp);
         }
     }
 }

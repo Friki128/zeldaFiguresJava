@@ -1,5 +1,6 @@
 package Controlers;
 
+import Exceptions.drawingDoesNotExistException;
 import Exceptions.notOwnerException;
 import Model.drawing;
 import Model.user;
@@ -35,6 +36,8 @@ public class deleteUserController extends HttpServlet {
             resp.sendRedirect("/login");
         } catch (notOwnerException e) {
            errorController.redirectError("Couldn't delete user because drawing is not proprietary", req, resp);
+        } catch (drawingDoesNotExistException e) {
+            errorController.redirectError("The Drawing doesn't exist", req, resp);
         }
     }
 }
