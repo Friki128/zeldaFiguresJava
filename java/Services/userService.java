@@ -3,6 +3,7 @@ package Services;
 import DAO.userDAOImpl;
 import Exceptions.*;
 import Model.user;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -28,7 +29,7 @@ public class userService {
         String fixedName = name.replace(" ", "");
         if(fixedName.isEmpty()) throw new emtyNameException();
         if (getUserByName(fixedName) != null) throw new nameAlreadyInUseException();
-        user user = new user(nextUserId(), fixedName, password);
+        user user = new user(nextUserId(), fixedName, hashPassword(password));
         userDAO.addUser(user);
     }
     public List<user> getAllUsers(){
@@ -46,19 +47,7 @@ public class userService {
         return nextId;
     }
     private String hashPassword(String password){
-        SecureRandom random = new SecureRandom();
-        byte[] salt = new byte[16];
-        random.nextBytes(salt);
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
-        try {
-            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-            byte[] hash = factory.generateSecret(spec).getEncoded();
-            return Arrays.toString(hash);
-        } catch (NoSuchAlgorithmException e) {
-            return password;
-        } catch (InvalidKeySpecException e) {
-            throw new RuntimeException(e);
-        }
+        return DigestUtils.sha256Hex(password);
     }
     private boolean checkUserExistence(int id){
         return userDAO.getUserById(id) != null;

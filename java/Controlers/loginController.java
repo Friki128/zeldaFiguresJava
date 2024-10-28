@@ -31,7 +31,7 @@ public class loginController extends HttpServlet {
         user user = userService.login(name, password);
         if(user != null){
             req.getSession().setAttribute("user", user);
-            resp.sendRedirect("/");
+            resp.sendRedirect("/viewPublicDrawings");
         }else{
             req.setAttribute("error", "Name and/or Password incorrect. Could not login.");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/login.jsp");
