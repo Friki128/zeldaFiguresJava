@@ -10,7 +10,7 @@ isELIgnored="false"
         <a href="/viewUserDrawings">User</a>
     </div>
     <div class="userMenu">
-        <a href="/deleteUser">Erase</a>
+        <a href="/deleteUser">Delete Account</a>
         <a href="/logout">Log out</a>
     </div>
 </div>

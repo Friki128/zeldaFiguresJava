@@ -19,7 +19,7 @@ form{
     flex-direction: column;
 }
 
-input{
+.normalInput{
     background-color: var(--color1);
     width: 50%;
     height: 30px;
@@ -109,3 +109,37 @@ a:hover{
     align-self: center;
 }
 
+.divPanel{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.noButton{
+    margin: 5%;
+    color: var(--color1);
+    background-color: red;
+    width: 50%;
+    padding: 5%;
+    border: 5px solid var(--color4);
+}
+
+.yesButton{
+    margin: 5%;
+    color: var(--color1);
+    background-color: green;
+    width: 50%;
+    padding: 5%;
+    border: 5px solid var(--color4);
+}
+
+.noButton:hover{
+    color: red;
+    background-color: var(--color1);
+}
+
+.yesButton:hover{
+    color: green;
+    background-color: var(--color1);
+}

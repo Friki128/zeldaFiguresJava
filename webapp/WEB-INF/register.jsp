@@ -17,10 +17,10 @@ isELIgnored="false"
         <h1>Register</h1>
         <form action="" method="post">
             <label for="name">Name</label>
-            <input type="text" name="name" id="name">
+            <input class="normalInput" type="text" name="name" id="name">
            <label for="password">Password</label>
-            <input type="password" name="password" id="password">
-            <input type="submit" value="Register" id="submit">
+            <input class="normalInput" type="password" name="password" id="password">
+            <input class="normalInput" type="submit" value="Register" id="submit">
         </form>
         <p id="error">${error}</p>
         <a href="/login">Login</a>
