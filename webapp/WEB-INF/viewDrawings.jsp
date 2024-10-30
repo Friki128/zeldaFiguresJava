@@ -31,63 +31,19 @@ isELIgnored="false"
 </c:if>
 
     <div class="drawingsDiv">
-        <div class="drawingDiv">
-            <div class="canvasBox">
-                <canvas class="drawingCanvas"></canvas>
-                <label>
-                    <input type="checkbox" name="selector" id="selector" class="selector">
-                </label>
+
+
+        <c:forEach var="drawing" items="${drawings}" >
+            <div class="drawingDiv">
+                <div class="canvasBox">
+                    <canvas class="drawingCanvas" drawing="${drawing.picture}"></canvas>
+                    <label>
+                        <input type="checkbox" name="selector" id="selector" drawingId="${drawing.drawingId}" class="selector">
+                    </label>
+                </div>
+                <a href="/viewDrawing?id=${drawing.drawingId}" class="drawingTitle">${drawing.name}</a>
             </div>
-            <a href="/" class="drawingTitle">Name</a>
-        </div>
-        <div class="drawingDiv">
-            <div class="canvasBox">
-                <canvas class="drawingCanvas"></canvas>
-                <label>
-                    <input type="checkbox" name="selector" id="selector" class="selector">
-                </label>
-            </div>
-            <a href="/" class="drawingTitle">Name</a>
-        </div>
-        <div class="drawingDiv">
-            <div class="canvasBox">
-                <canvas class="drawingCanvas"></canvas>
-                <label>
-                    <input type="checkbox" name="selector" id="selector" class="selector">
-                </label>
-            </div>
-            <a href="/" class="drawingTitle">Name</a>
-        </div>
-        <div class="drawingDiv">
-            <div class="canvasBox">
-                <canvas class="drawingCanvas"></canvas>
-                <label>
-                    <input type="checkbox" name="selector" id="selector" class="selector">
-                </label>
-            </div>
-            <a href="/" class="drawingTitle">Name</a>
-            
-        </div>
-        <div class="drawingDiv">
-            <div class="canvasBox">
-                <canvas class="drawingCanvas"></canvas>
-                <label>
-                    <input type="checkbox" name="selector" id="selector" class="selector">
-                </label>
-            </div>
-            <a href="/" class="drawingTitle">Name</a>
-            
-        </div>
-        <div class="drawingDiv">
-            <div class="canvasBox">
-                <canvas class="drawingCanvas"></canvas>
-                <label>
-                    <input type="checkbox" name="selector" id="selector" class="selector">
-                </label>
-            </div>
-            <a href="/" class="drawingTitle">Name</a>
-            
-        </div>
+        </c:forEach>
     </div>
     <script src="/js/viewDrawings.js"></script>
 </body>
