@@ -14,10 +14,19 @@ isELIgnored="false"
 </head>
 <body>
     <%@include file="./nav-bar.jsp" %>
+    <div id="nameMenu">
+        <div id="nameMenuContent">
+            <form action="/addDrawing" method="post" id="nameForm">
+                <label for="name">Name</label>
+                <input class="normalInput" type="text" name="name" id="name">
+                <input class="normalInput" type="submit" value="Create" id="submit">
+            </form>
+        </div>
+    </div>
     <c:if test="${mode =='user'}">
     <div class="createDrawingMenu">
-        <a href="/addDrawing">New</a>
-        <a href="/fuseDrawings">Fuse</a>
+        <button id="addButton">New</button>
+        <button id="fuseButton">Fuse</button>
     </div>
 </c:if>
 
@@ -80,5 +89,6 @@ isELIgnored="false"
             
         </div>
     </div>
+    <script src="/js/viewDrawings.js"></script>
 </body>
 </html>

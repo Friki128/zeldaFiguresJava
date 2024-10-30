@@ -6,6 +6,7 @@ import Exceptions.notPublicException;
 import Model.user;
 import Services.drawingService;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,18 +26,22 @@ public class fuseController extends HttpServlet {
         String drawingIds = req.getParameter("drawingIds");
         String name = req.getParameter("name");
         List<Integer> ids = new ArrayList<>();
-        for(String id : drawingIds.split(",")){
-            ids.add(Integer.parseInt(id));
-        }
-        try {
-            drawingService.fuseDrawings(ids, name, user);
-            resp.sendRedirect("/viewUserDrawings");
-        } catch (notPublicException e) {
-           errorController.redirectError("Cannot fuse with a drawing that isn't public.", req, resp);
-        } catch (emtyNameException e) {
-            errorController.redirectError("The name of the drawing cannot be empty", req, resp);
-        } catch (drawingDoesNotExistException e) {
-            errorController.redirectError("The Drawing doesn't exist", req, resp);
+        if (!drawingIds.contains(",")){
+            errorController.redirectError("Cannot fuse drawings if there is less than two", req, resp);
+        } else {
+            for (String id : drawingIds.split(",")) {
+                ids.add(Integer.parseInt(id));
+            }
+            try {
+                drawingService.fuseDrawings(ids, name, user);
+                resp.sendRedirect("/viewUserDrawings");
+            } catch (notPublicException e) {
+                errorController.redirectError("Cannot fuse with a drawing that isn't public.", req, resp);
+            } catch (emtyNameException e) {
+                errorController.redirectError("The name of the drawing cannot be empty", req, resp);
+            } catch (drawingDoesNotExistException e) {
+                errorController.redirectError("The Drawing doesn't exist", req, resp);
+            }
         }
     }
 }
