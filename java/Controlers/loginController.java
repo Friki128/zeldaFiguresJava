@@ -16,9 +16,8 @@ public class loginController extends HttpServlet {
     userService userService = new userService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(req.getSession().getAttribute("user") != null){
-            resp.sendRedirect("/");
-        }else{
+        if(req.getSession().getAttribute("user") != null){ resp.sendRedirect("/");}
+        else {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/login.jsp");
             requestDispatcher.forward(req, resp);
         }
@@ -26,16 +25,20 @@ public class loginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name = req.getParameter("name");
-        String password = req.getParameter("password");
-        user user = userService.login(name, password);
-        if(user != null){
-            req.getSession().setAttribute("user", user);
-            resp.sendRedirect("/viewPublicDrawings");
-        }else{
-            req.setAttribute("error", "Name and/or Password incorrect. Could not login.");
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/login.jsp");
-            requestDispatcher.forward(req, resp);
+        if (req.getSession().getAttribute("user") != null) {
+            resp.sendRedirect("/");
+        } else {
+            String name = req.getParameter("name");
+            String password = req.getParameter("password");
+            user user = userService.login(name, password);
+            if (user != null) {
+                req.getSession().setAttribute("user", user);
+                resp.sendRedirect("/viewPublicDrawings");
+            } else {
+                req.setAttribute("error", "Name and/or Password incorrect. Could not login.");
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/login.jsp");
+                requestDispatcher.forward(req, resp);
+            }
         }
     }
 }
