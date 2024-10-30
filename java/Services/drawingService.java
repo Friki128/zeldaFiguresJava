@@ -19,7 +19,9 @@ public class drawingService {
     public void addDrawing(String name, user user) throws emtyNameException {
         String fixedName = name.trim();
         if(fixedName.isEmpty()) throw new emtyNameException();
+        drawingVersion version = new drawingVersion(nextVersionId(), getDate(), "{}");
         drawing drawing = new drawing(nextDrawingId(),fixedName,false, user, new ArrayList<>());
+        drawing.addVersion(version);
         drawingDAO.addDrawing(drawing);
     }
     public void deleteDrawing(int drawingId, user user) throws notOwnerException, drawingDoesNotExistException {
@@ -61,8 +63,10 @@ public class drawingService {
         if(!checkVersionExistence(drawingId, versionId)) throw new versionDoesNotExistException();
         return drawingDAO.getVersion(drawingId, versionId);
     }
-    public void addVersion(int drawingId, user user,String items) throws notOwnerException, drawingDoesNotExistException {
+    public void addVersion(int drawingId, user user,String items) throws notOwnerException, drawingDoesNotExistException, versionDoesNotExistException, notPublicException {
         if(!isUserOwnerOfDrawing(user, drawingId)) throw new notOwnerException();
+        drawingVersion prevVersion = getLatestVersion(drawingId, user);
+        if(prevVersion.getNumberOfComponents() == 0) drawingDAO.removeVersionOffDrawing(drawingId, prevVersion.getId());
         drawingVersion version = new drawingVersion(nextVersionId(), getDate(), items);
         drawingDAO.addVersionOffDrawing(drawingId, version);
     }
@@ -70,6 +74,8 @@ public class drawingService {
         if(!isUserOwnerOfDrawing(user, drawingId)) throw new notOwnerException();
         if(!checkVersionExistence(drawingId, versionId)) throw new versionDoesNotExistException();
         drawingDAO.removeVersionOffDrawing(drawingId, versionId);
+        drawing drawing = drawingDAO.getDrawingById(drawingId);
+        if(drawing.getVersions().isEmpty()) deleteDrawing(drawingId, user);
     }
     public void fuseDrawings(List<Integer> drawings, String name, user user) throws notPublicException, emtyNameException, drawingDoesNotExistException {
         String fixedName = name.trim();

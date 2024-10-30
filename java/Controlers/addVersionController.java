@@ -2,6 +2,8 @@ package Controlers;
 
 import Exceptions.drawingDoesNotExistException;
 import Exceptions.notOwnerException;
+import Exceptions.notPublicException;
+import Exceptions.versionDoesNotExistException;
 import Model.user;
 import Services.drawingService;
 
@@ -29,6 +31,10 @@ public class addVersionController extends HttpServlet {
             errorController.redirectError("Can't add a new version to a drawing you don't own.", req, resp);
         } catch (drawingDoesNotExistException e) {
             errorController.redirectError("The Drawing doesn't exist", req, resp);
+        } catch (versionDoesNotExistException e) {
+            errorController.redirectError("Previous version does not exist", req, resp);
+        } catch (notPublicException e) {
+            errorController.redirectError("The drawing is not public", req, resp);
         }
     }
 }
