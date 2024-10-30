@@ -14,5 +14,71 @@ isELIgnored="false"
 </head>
 <body>
     <%@include file="./nav-bar.jsp" %>
+    <c:if test="${mode =='user'}">
+    <div class="createDrawingMenu">
+        <a href="/addDrawing">New</a>
+        <a href="/fuseDrawings">Fuse</a>
+    </div>
+</c:if>
+
+    <div class="drawingsDiv">
+        <div class="drawingDiv">
+            <div class="canvasBox">
+                <canvas class="drawingCanvas"></canvas>
+                <label>
+                    <input type="checkbox" name="selector" id="selector" class="selector">
+                </label>
+            </div>
+            <a href="/" class="drawingTitle">Name</a>
+        </div>
+        <div class="drawingDiv">
+            <div class="canvasBox">
+                <canvas class="drawingCanvas"></canvas>
+                <label>
+                    <input type="checkbox" name="selector" id="selector" class="selector">
+                </label>
+            </div>
+            <a href="/" class="drawingTitle">Name</a>
+        </div>
+        <div class="drawingDiv">
+            <div class="canvasBox">
+                <canvas class="drawingCanvas"></canvas>
+                <label>
+                    <input type="checkbox" name="selector" id="selector" class="selector">
+                </label>
+            </div>
+            <a href="/" class="drawingTitle">Name</a>
+        </div>
+        <div class="drawingDiv">
+            <div class="canvasBox">
+                <canvas class="drawingCanvas"></canvas>
+                <label>
+                    <input type="checkbox" name="selector" id="selector" class="selector">
+                </label>
+            </div>
+            <a href="/" class="drawingTitle">Name</a>
+            
+        </div>
+        <div class="drawingDiv">
+            <div class="canvasBox">
+                <canvas class="drawingCanvas"></canvas>
+                <label>
+                    <input type="checkbox" name="selector" id="selector" class="selector">
+                </label>
+            </div>
+            <a href="/" class="drawingTitle">Name</a>
+            
+        </div>
+        <div class="drawingDiv">
+            <div class="canvasBox">
+                <canvas class="drawingCanvas"></canvas>
+                <label>
+                    <input type="checkbox" name="selector" id="selector" class="selector">
+                </label>
+            </div>
+            <a href="/" class="drawingTitle">Name</a>
+            
+        </div>
+    </div>
 </body>
 </html>

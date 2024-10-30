@@ -72,11 +72,12 @@ a:hover{
     display: flex;
     flex-direction: row;
     background-color: var(--color4);
-    position: fixed;
+    position: sticky;
     right: 0;
     top: 0;
     height: 5%;
     width: 100%;
+    z-index: 10;
 }
 
 .navbar a{
@@ -142,4 +143,66 @@ a:hover{
 .yesButton:hover{
     color: green;
     background-color: var(--color1);
+}
+
+.drawingsDiv{
+ display: flex;
+ flex-direction: row;
+ flex-wrap: wrap;
+ margin-top: 1%;
+ padding-left: 20%;
+ padding-right: 20%;
+}
+
+.drawingDiv{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.selector{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    padding: 2px;
+    border-radius: 4px;
+    background-color: var(--color1);
+}
+
+.drawingTitle{
+    background-color: var(--color1);
+    color: var(--color4);
+    font-weight: bold;
+    width: 25%;
+    align-self: center;
+}
+
+.drawingCanvas{
+    width: 400px;
+    height: 400px;
+    align-self: center;
+    border: 5px solid var(--color4);
+    background-color: white;
+}
+
+.canvasBox{
+    position: relative;
+    width: fit-content;
+    align-self: center;
+}
+
+.createDrawingMenu{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 1%;
+    padding-left: 20%;
+    padding-right: 20%;
+}
+
+.createDrawingMenu a{
+    width: 25%;
+    color: var(--color1);
+    background-color: var(--color4);
 }
