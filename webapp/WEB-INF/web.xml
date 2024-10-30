@@ -8,4 +8,8 @@
     <error-code>404</error-code>
     <location>/pageNotFound</location>
   </error-page>
+  <error-page>
+    <error-code>500</error-code>
+    <location>/unknownError</location>
+  </error-page>
 </web-app>
