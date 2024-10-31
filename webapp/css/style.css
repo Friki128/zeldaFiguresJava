@@ -174,7 +174,7 @@ a:hover{
     background-color: var(--color1);
     color: var(--color4);
     font-weight: bold;
-    width: 25%;
+    width: fit-content;
     align-self: center;
 }
 
@@ -201,12 +201,6 @@ a:hover{
     padding-right: 20%;
 }
 
-.createDrawingMenu button{
-    width: 25%;
-    color: var(--color1);
-    background-color: var(--color4);
-}
-
 #nameMenu {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -230,3 +224,57 @@ a:hover{
     width: 30%;
   }
 
+.versionViewDiv{
+    display: flex;
+    flex-direction: row;
+}
+.versionViewDivInternal{
+    margin-top: 5%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.canvasVersion{
+    width: 600px;
+    height: 600px;
+    background-color: white;
+    align-self: center;
+    border: 5px solid var(--color4);
+}
+
+.versionNameMenu{
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    width: 25%;
+    align-self: center;
+    justify-content: space-around;
+}
+
+.versionForm{
+    display: flex;
+    flex-direction: row;
+    width: 25%;
+    align-self: center;
+    justify-content: space-around;
+    margin: 10px;
+}
+
+.versionText{
+    margin: 10px;
+}
+
+.editButton{
+    width: 10%;
+    align-self: center;
+    color: var(--color1);
+    background-color: var(--color4);
+    margin: 10px;
+}
+
+.generalButton{
+    width: fit-content;
+    color: var(--color1);
+    background-color: var(--color4);
+}

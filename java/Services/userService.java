@@ -16,7 +16,7 @@ import java.util.List;
 
 public class userService {
     userDAOImpl userDAO = new userDAOImpl();
-    int nextId = 0;
+    static int nextId = 0;
     public user getUserByName(String name){
         return userDAO.getUserByName(name);
     }

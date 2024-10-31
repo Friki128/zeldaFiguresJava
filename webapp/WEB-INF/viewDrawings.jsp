@@ -25,8 +25,8 @@ isELIgnored="false"
     </div>
     <c:if test="${mode =='user'}">
     <div class="createDrawingMenu">
-        <button id="addButton">New</button>
-        <button id="fuseButton">Fuse</button>
+        <button id="addButton" class="generalButton">New</button>
+        <button id="fuseButton" class="generalButton">Fuse</button>
     </div>
 </c:if>
 
@@ -37,9 +37,11 @@ isELIgnored="false"
             <div class="drawingDiv">
                 <div class="canvasBox">
                     <canvas class="drawingCanvas" drawing="${drawing.picture}"></canvas>
+                    <c:if test="${mode =='user'}">
                     <label>
                         <input type="checkbox" name="selector" id="selector" drawingId="${drawing.drawingId}" class="selector">
                     </label>
+                </c:if>
                 </div>
                 <a href="/viewDrawing?id=${drawing.drawingId}" class="drawingTitle">${drawing.name}</a>
             </div>

@@ -17,7 +17,7 @@ public class cloneController extends HttpServlet {
     drawingService drawingService = new drawingService();
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         user user = (Model.user) req.getSession().getAttribute("user");
         int id = Integer.parseInt(req.getParameter("id"));
         try {

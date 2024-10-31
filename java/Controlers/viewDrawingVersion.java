@@ -36,6 +36,9 @@ public class viewDrawingVersion extends HttpServlet {
             req.setAttribute("creationDate", original.getDate());
             req.setAttribute("elements", version.getNumberOfComponents());
             req.setAttribute("creator", drawing.getUser().getName());
+            req.setAttribute("picture", version.getItems());
+            req.setAttribute("isPublic", drawing.isStatus());
+            req.setAttribute("isOwner", drawingService.isUserOwnerOfDrawing(user, drawing.getId()));
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/viewVersion.jsp");
             requestDispatcher.forward(req, resp);
         } catch (notPublicException e) {

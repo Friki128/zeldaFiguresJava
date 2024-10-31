@@ -22,7 +22,7 @@ public class deleteUserController extends HttpServlet {
     drawingService drawingService = new drawingService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/deleteUser.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/delete.jsp");
         requestDispatcher.forward(req, resp);
     }
 

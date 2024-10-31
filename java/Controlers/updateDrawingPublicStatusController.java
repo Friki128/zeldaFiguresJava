@@ -20,7 +20,8 @@ public class updateDrawingPublicStatusController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         user user = (Model.user) req.getSession().getAttribute("user");
         int id = Integer.parseInt(req.getParameter("id"));
-        boolean status = Boolean.parseBoolean(req.getParameter("status"));
+        String statusString = req.getParameter("status");
+        boolean status = statusString != null && statusString.equals("on");
         try {
             drawingService.changeDrawingPublicStatus(id, user, status);
             resp.sendRedirect("/viewDrawing?id=" + id);

@@ -18,6 +18,16 @@ import java.io.IOException;
 public class deleteVersionController extends HttpServlet {
     drawingService drawingService = new drawingService();
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int drawingId = Integer.parseInt(req.getParameter("id"));
+        int versionId = Integer.parseInt(req.getParameter("versionId"));
+        req.setAttribute("drawingId", drawingId);
+        req.setAttribute("versionId", versionId);
+        req.setAttribute("mode", "version");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/delete.jsp");
+        requestDispatcher.forward(req, resp);
+    }
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int drawingId = Integer.parseInt(req.getParameter("drawingId"));
         int versionId = Integer.parseInt(req.getParameter("versionId"));

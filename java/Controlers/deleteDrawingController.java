@@ -16,6 +16,16 @@ import java.io.IOException;
 @WebServlet(value = "/deleteDrawing")
 public class deleteDrawingController extends HttpServlet {
     drawingService drawingService = new drawingService();
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int drawingId = Integer.parseInt(req.getParameter("id"));
+        req.setAttribute("drawingId", drawingId);
+        req.setAttribute("mode", "drawing");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/delete.jsp");
+        requestDispatcher.forward(req, resp);
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int drawingId = Integer.parseInt(req.getParameter("id"));

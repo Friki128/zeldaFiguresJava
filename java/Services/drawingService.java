@@ -14,8 +14,8 @@ import java.util.List;
 
 public class drawingService {
     drawingDAOImpl drawingDAO = new drawingDAOImpl();
-    int drawingId = 0;
-    int versionId = 0;
+    static int drawingId = 0;
+    static int versionId = 0;
     public void addDrawing(String name, user user) throws emtyNameException {
         String fixedName = name.trim();
         if(fixedName.isEmpty()) throw new emtyNameException();
