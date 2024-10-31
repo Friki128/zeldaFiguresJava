@@ -148,4 +148,9 @@ public class drawingService {
         if(!isDrawingVisible(user, drawingId)) throw new notPublicException();
         return drawingDAO.getEarliestVersion(drawingId, user.getId());
     }
+
+    public void makeCurrentVersion(int drawingId, int versionId,user user) throws versionDoesNotExistException, drawingDoesNotExistException, notPublicException{
+        drawingVersion version = getVersion(drawingId, versionId, user);
+        version.setId(nextVersionId());
+    }
 }

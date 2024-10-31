@@ -58,11 +58,10 @@ isELIgnored="false"
         </div>
         <div class="versionViewDivInternal">
             <canvas class="canvasVersion" picture="${picture}"></canvas>
-            <c:if test="${isOwner}"></c:if>
+            <c:if test="${isOwner}">
                 <a class="editButton" href="/editDrawing?drawingId=${drawingId}">Edit</a>
             </c:if>
         </div>
     </div>
-    <script src="/js/viewVersion.js"></script>
 </body>
 </html>

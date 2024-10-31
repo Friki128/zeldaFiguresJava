@@ -41,9 +41,8 @@ public class drawingDAOImpl implements drawingDAO{
     @Override
     public void removeVersionOffDrawing(int drawingId, int versionId) {
         drawing drawing = getDrawingById(drawingId);
-        for (drawingVersion version : drawing.getVersions()){
-            if (version.getId() == versionId) drawing.removeVersion(version);
-        }
+        drawingVersion removeVersion = getVersion(drawingId, versionId);
+        drawing.removeVersion(removeVersion);
     }
 
     @Override

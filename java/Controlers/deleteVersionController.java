@@ -34,7 +34,7 @@ public class deleteVersionController extends HttpServlet {
         user user = (Model.user) req.getSession().getAttribute("user");
         try {
             drawingService.removeVersion(drawingId, user, versionId);
-            resp.sendRedirect("/viewDrawing?id=" + drawingId);
+            resp.sendRedirect("/viewUserDrawings");
         } catch (notOwnerException e) {
             errorController.redirectError("Couldn't delete version because user is not the owner.", req, resp);
         } catch (versionDoesNotExistException e) {
