@@ -22,11 +22,13 @@ public class viewUserDrawingsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         user user = (Model.user) req.getSession().getAttribute("user");
+        String error = req.getParameter("error");
         List<drawing> drawings = drawingService.getUserDrawings(user);
         try {
             List<drawingVersionView> drawingVersions = drawingVersionCombiner.combine(drawings, user);
             req.setAttribute("drawings", drawingVersions);
             req.setAttribute("mode", "user");
+            req.setAttribute("error", error);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/viewDrawings.jsp");
             requestDispatcher.forward(req, resp);
         } catch (drawingDoesNotExistException e) {

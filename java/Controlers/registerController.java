@@ -20,8 +20,10 @@ public class registerController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(req.getSession().getAttribute("user") != null){ resp.sendRedirect("/");}
         else {
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/register.jsp");
-        requestDispatcher.forward(req, resp);
+            String error = req.getParameter("error");
+            req.setAttribute("error", error);
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/register.jsp");
+            requestDispatcher.forward(req, resp);
     }
     }
 
@@ -36,17 +38,11 @@ public class registerController extends HttpServlet {
                 userService.register(name, password);
                 resp.sendRedirect("/login");
             } catch (passwordLengthException e) {
-                req.setAttribute("error", "The password must be at least 6 characters in length.");
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/register.jsp");
-                requestDispatcher.forward(req, resp);
+                errorController.redirectErrorToPage("The password must be at least 6 characters in length.", req, resp, "register?");
             } catch (nameAlreadyInUseException e) {
-                req.setAttribute("error", "This name is already in use.");
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/register.jsp");
-                requestDispatcher.forward(req, resp);
+                errorController.redirectErrorToPage("This name is already in use.", req, resp, "register?");
             } catch (emtyNameException e) {
-                req.setAttribute("error", "A name must be provided.");
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/register.jsp");
-                requestDispatcher.forward(req, resp);
+                errorController.redirectErrorToPage("A name must be provided.", req, resp, "register?");
             }
         }
     }

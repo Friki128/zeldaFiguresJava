@@ -14,6 +14,7 @@ isELIgnored="false"
 </head>
 <body>
     <%@include file="./nav-bar.jsp" %>
+    <p id="error">${error}</p>
     <div id="nameMenu">
         <div id="nameMenuContent">
             <form action="/addDrawing" method="post" id="nameForm">
@@ -31,8 +32,6 @@ isELIgnored="false"
 </c:if>
 
     <div class="drawingsDiv">
-
-
         <c:forEach var="drawing" items="${drawings}" >
             <div class="drawingDiv">
                 <div class="canvasBox">

@@ -23,10 +23,12 @@ public class viewDrawing extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         user user = (Model.user) req.getSession().getAttribute("user");
         int id = Integer.parseInt(req.getParameter("id"));
+        String error = req.getParameter("error");
         try {
             drawing drawing = drawingService.getDrawingById(id, user);
             drawingVersion currentVersion = drawingService.getLatestVersion(id, user);
             drawingVersion earliestVersion = drawingService.getEarliestVersion(id, user);
+            req.setAttribute("error", error);
             req.setAttribute("drawingId", drawing.getId());
             req.setAttribute("name", drawing.getName());
             req.setAttribute("creator", drawing.getUser().getName());

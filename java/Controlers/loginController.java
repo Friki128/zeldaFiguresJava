@@ -18,6 +18,8 @@ public class loginController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(req.getSession().getAttribute("user") != null){ resp.sendRedirect("/");}
         else {
+            String error = req.getParameter("error");
+            req.setAttribute("error", error);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/login.jsp");
             requestDispatcher.forward(req, resp);
         }
@@ -35,9 +37,7 @@ public class loginController extends HttpServlet {
                 req.getSession().setAttribute("user", user);
                 resp.sendRedirect("/viewPublicDrawings");
             } else {
-                req.setAttribute("error", "Name and/or Password incorrect. Could not login.");
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/login.jsp");
-                requestDispatcher.forward(req, resp);
+                errorController.redirectErrorToPage("Name and/or Password incorrect. Could not login.", req, resp, "login?");
             }
         }
     }

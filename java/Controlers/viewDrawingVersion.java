@@ -25,10 +25,12 @@ public class viewDrawingVersion extends HttpServlet {
         user user = (Model.user) req.getSession().getAttribute("user");
         int drawingId = Integer.parseInt(req.getParameter("drawingId"));
         int versionId = Integer.parseInt(req.getParameter("versionId"));
+        String error = req.getParameter("error");
         try {
             drawingVersion version = drawingService.getVersion(drawingId, versionId, user);
             drawing drawing = drawingService.getDrawingById(drawingId, user);
             drawingVersion original = drawingService.getEarliestVersion(drawingId, user);
+            req.setAttribute("error", error);
             req.setAttribute("name", drawing.getName());
             req.setAttribute("drawingId", drawing.getId());
             req.setAttribute("versionId", version.getId());

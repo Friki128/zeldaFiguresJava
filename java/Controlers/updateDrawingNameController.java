@@ -28,7 +28,7 @@ public class updateDrawingNameController extends HttpServlet {
         } catch (notOwnerException e) {
             errorController.redirectError("Can't change drawing name without being the owner.", req, resp);
         } catch (emtyNameException e) {
-            errorController.redirectError("The name can't be empty", req, resp);
+            errorController.redirectErrorToPage("The name cannot be empty", req, resp, "viewDrawing?id="+id+"&");
         } catch (drawingDoesNotExistException e) {
             errorController.redirectError("The Drawing doesn't exist", req, resp);
         }

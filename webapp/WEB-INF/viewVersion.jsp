@@ -24,9 +24,9 @@ isELIgnored="false"
             </form>
         </div>
     </div>
-
     <div class="versionViewDiv">
         <div class="versionViewDivInternal">
+            <p id="error">${error}</p>
             <div class="versionNameMenu">
                 <p id="nameText">${name}</p>
                 <c:if test="${isOwner}">
@@ -63,5 +63,6 @@ isELIgnored="false"
             </c:if>
         </div>
     </div>
+    <script src="/js/viewVersion.js"></script>
 </body>
 </html>

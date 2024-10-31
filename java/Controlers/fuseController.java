@@ -38,7 +38,7 @@ public class fuseController extends HttpServlet {
             } catch (notPublicException e) {
                 errorController.redirectError("Cannot fuse with a drawing that isn't public.", req, resp);
             } catch (emtyNameException e) {
-                errorController.redirectError("The name of the drawing cannot be empty", req, resp);
+                errorController.redirectErrorToPage("The name cannot be empty.", req, resp, "viewUserDrawings?");
             } catch (drawingDoesNotExistException e) {
                 errorController.redirectError("The Drawing doesn't exist", req, resp);
             }

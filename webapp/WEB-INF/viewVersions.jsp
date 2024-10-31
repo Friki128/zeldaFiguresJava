@@ -25,7 +25,7 @@ isELIgnored="false"
             <tbody>
                 <c:forEach var="version" items="${versions}">
                 <td><a href="/makeCurrent?drawingId=${drawingId}&versionId=${version.id}" class="editButton">Make current</a></td>
-                <td>${version.date}</td>
+                <td><a href="/viewDrawingVersion?drawingId=${drawingId}&versionId=${version.id}" class="editButton">${version.date}</a></td>
                 <td><canvas class="drawingCanvas" drawing="${drawing.picture}"></canvas></td>
                 <td><a href="/deleteVersion?id=${drawingId}&versionId=${version.id}" class="editButton">Delete</a></td>
            
@@ -33,7 +33,5 @@ isELIgnored="false"
             </tbody>
         </table>
     </div>
-    
-    <script src="/js/viewDrawings.js"></script>
 </body>
 </html>

@@ -12,4 +12,7 @@ public class errorController {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/errorPage.jsp");
         requestDispatcher.forward(req, resp);
     }
+    public static void redirectErrorToPage(String message, HttpServletRequest req, HttpServletResponse resp, String page) throws ServletException, IOException {
+        resp.sendRedirect("/"+page+"error="+message);
+    }
 }
