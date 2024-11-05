@@ -50,7 +50,7 @@ isELIgnored="false"
             
         </div>
         <div class="editDrawingCanvasBox">
-            <canvas id="editDrawingCanvas" class="canvasVersion"></canvas>
+            <canvas id="editDrawingCanvas" class="canvasVersion" width="600px" height="600px"></canvas>
             <div id="itemList">
             </div>
         </div>

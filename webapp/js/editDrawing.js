@@ -57,7 +57,7 @@ function removeFigure(id){
 drawingType.onchange = function(){
     switch(drawingType.value){
         case "star":
-        changeVisibility(true, true, true);
+        changeVisibility(false, true, true);
         break;
         case "line":
         case "pencil":
@@ -117,7 +117,6 @@ canvas.onclick = function(event){
                 "x": x, 
                 "y": y, 
                 "width": width.value, 
-                "height": height.value, 
                 "filled": filled.checked, 
                 "color": color.value,
                 "points": points.value
@@ -144,6 +143,7 @@ canvas.onclick = function(event){
             break;
         case "pencil":
             pencilStatus = true;
+            positions = [];
             break;
         default:
             let figure = {

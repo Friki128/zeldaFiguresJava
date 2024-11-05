@@ -57,12 +57,13 @@ isELIgnored="false"
             </c:if>
         </div>
         <div class="versionViewDivInternal">
-            <canvas class="canvasVersion" picture=${picture}></canvas>
+            <canvas class="canvasVersion" id="canvas" width="600px" height="600px"></canvas>
+            <input type="text" name="picture" id="picture" hidden value=${picture}>
             <c:if test="${isOwner}">
                 <a class="editButton" href="/editDrawing?drawingId=${drawingId}">Edit</a>
             </c:if>
         </div>
     </div>
-    <script src="/js/viewVersion.js"></script>
+    <script type="module" src="/js/viewVersion.js"></script>
 </body>
 </html>
