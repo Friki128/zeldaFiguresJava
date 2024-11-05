@@ -27,12 +27,13 @@ isELIgnored="false"
                     <tr>
                 <td><a href="/makeCurrent?drawingId=${drawingId}&versionId=${version.id}" class="editButton">Make current</a></td>
                 <td><a href="/viewDrawingVersion?drawingId=${drawingId}&versionId=${version.id}" class="editButton">${version.date}</a></td>
-                <td><canvas class="drawingCanvas" drawing="${drawing.picture}"></canvas></td>
+                <td><canvas class="drawingCanvas" width="400px" height="400px" id=${version.id}></canvas><input type="text" name="picture" id="pic${version.id}" hidden value=${version.items}></td>
                 <td><a href="/deleteVersion?id=${drawingId}&versionId=${version.id}" class="editButton">Delete</a></td>
                     </tr>
         </c:forEach>
             </tbody>
         </table>
     </div>
+    <script type="module" src="/js/viewVersions.js"></script>
 </body>
 </html>
