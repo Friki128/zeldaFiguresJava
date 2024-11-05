@@ -20,6 +20,7 @@ isELIgnored="false"
             <form action="/addDrawing" method="post" id="nameForm">
                 <label for="name">Name</label>
                 <input class="normalInput" type="text" name="name" id="name">
+                <input type="text" name="drawingIds" id="drawingIds" hidden value="{}">
                 <input class="normalInput" type="submit" value="Create" id="submit">
             </form>
         </div>
@@ -39,7 +40,7 @@ isELIgnored="false"
                     <input type="text" name="picture" class="picture" id="pic${drawing.drawingId}" hidden value=${drawing.picture}>
                     <c:if test="${mode =='user'}">
                     <label>
-                        <input type="checkbox" name="selector" id="selector" drawingId="${drawing.drawingId}" class="selector">
+                        <input type="checkbox" name="selector" id=${drawing.drawingId} drawingId="${drawing.drawingId}" class="selector">
                     </label>
                 </c:if>
                 </div>

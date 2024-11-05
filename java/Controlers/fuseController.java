@@ -5,6 +5,7 @@ import Exceptions.emtyNameException;
 import Exceptions.notPublicException;
 import Model.user;
 import Services.drawingService;
+import org.json.JSONObject;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,12 +27,14 @@ public class fuseController extends HttpServlet {
         String drawingIds = req.getParameter("drawingIds");
         String name = req.getParameter("name");
         List<Integer> ids = new ArrayList<>();
-        if (!drawingIds.contains(",")){
-            errorController.redirectError("Cannot fuse drawings if there is less than two", req, resp);
-        } else {
-            for (String id : drawingIds.split(",")) {
-                ids.add(Integer.parseInt(id));
-            }
+        JSONObject drawingIdsJson = new JSONObject(drawingIds);
+        for(String drawingId : drawingIdsJson.keySet()){
+            ids.add(drawingIdsJson.getInt(drawingId));
+        }
+        if(ids.size() < 2){
+            errorController.redirectErrorToPage("You need at least 2 elements in order to fuse them", req, resp, "viewUserDrawings?");
+            return;
+        }
             try {
                 drawingService.fuseDrawings(ids, name, user);
                 resp.sendRedirect("/viewUserDrawings");
@@ -44,4 +47,4 @@ public class fuseController extends HttpServlet {
             }
         }
     }
-}
+
