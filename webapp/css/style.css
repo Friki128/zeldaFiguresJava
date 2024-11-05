@@ -283,3 +283,52 @@ a:hover{
 table{
     width: 100%;
 }
+
+#itemList{
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.logItem{
+    display: flex;
+    flex-direction: row;
+}
+
+.editDrawingBase{
+    display: flex;
+    flex-direction: column;
+}
+
+.editDrawingInputs{
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    margin-top: 20px;
+}
+
+.editDrawingCanvasBox{
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    margin-top: 20px;
+}
+
+.editForm{
+    align-self: center;
+}
+
+.editDiv{
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.hidden{
+    display: none;
+}
+
+.logDeleteButton{
+    width: fit-content;
+    align-self: center;
+}

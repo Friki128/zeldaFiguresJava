@@ -57,7 +57,7 @@ isELIgnored="false"
             </c:if>
         </div>
         <div class="versionViewDivInternal">
-            <canvas class="canvasVersion" picture="${picture}"></canvas>
+            <canvas class="canvasVersion" picture=${picture}></canvas>
             <c:if test="${isOwner}">
                 <a class="editButton" href="/editDrawing?drawingId=${drawingId}">Edit</a>
             </c:if>

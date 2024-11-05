@@ -35,7 +35,7 @@ isELIgnored="false"
         <c:forEach var="drawing" items="${drawings}" >
             <div class="drawingDiv">
                 <div class="canvasBox">
-                    <canvas class="drawingCanvas" drawing="${drawing.picture}"></canvas>
+                    <canvas class="drawingCanvas" drawing=${drawing.picture}></canvas>
                     <c:if test="${mode =='user'}">
                     <label>
                         <input type="checkbox" name="selector" id="selector" drawingId="${drawing.drawingId}" class="selector">
