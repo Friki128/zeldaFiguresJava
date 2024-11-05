@@ -1,6 +1,7 @@
 package Controlers;
 
 import Exceptions.drawingDoesNotExistException;
+import Exceptions.notOwnerException;
 import Exceptions.notPublicException;
 import Exceptions.versionDoesNotExistException;
 import Model.user;
@@ -30,6 +31,8 @@ public class makeCurrent extends HttpServlet {
             errorController.redirectError("Drawing does not exist", req, resp);
         } catch (notPublicException e) {
             errorController.redirectError("The drawing isn't public", req, resp);
+        } catch (notOwnerException e) {
+            errorController.redirectError("Can't change current version of a drawing that you aren't owner of.", req, resp);
         }
     }
 }

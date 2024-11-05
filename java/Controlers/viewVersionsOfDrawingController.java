@@ -27,6 +27,7 @@ public class viewVersionsOfDrawingController extends HttpServlet {
         try {
             List<drawingVersion> versions = drawingService.getVersions(drawingId, user);
             drawing drawing = drawingService.getDrawingById(drawingId, user);
+            req.setAttribute("isOwner", drawingService.isUserOwnerOfDrawing(user, drawingId));
             req.setAttribute("versions", versions);
             req.setAttribute("name", drawing.getName());
             req.setAttribute("drawingId", drawing.getId());

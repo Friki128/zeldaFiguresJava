@@ -18,17 +18,23 @@ isELIgnored="false"
         <h1>${name}</h1>
         <table>
             <thead>
-                <th>Make current</th>
-                <th>Date</th>
                 <th>Picture</th>
+                <th>Date</th>
+                <c:if test="${isOwner}">
+                    <th>Make current</th>
+                    <th>delete</th>
+                </c:if>    
+                
             </thead>
             <tbody>
                 <c:forEach var="version" items="${versions}">
                     <tr>
-                <td><a href="/makeCurrent?drawingId=${drawingId}&versionId=${version.id}" class="editButton">Make current</a></td>
-                <td><a href="/viewDrawingVersion?drawingId=${drawingId}&versionId=${version.id}" class="editButton">${version.date}</a></td>
-                <td><canvas class="drawingCanvas" width="400px" height="400px" id=${version.id}></canvas><input type="text" name="picture" id="pic${version.id}" hidden value=${version.items}></td>
-                <td><a href="/deleteVersion?id=${drawingId}&versionId=${version.id}" class="editButton">Delete</a></td>
+                        <td><canvas class="drawingCanvas" width="400px" height="400px" id=${version.id}></canvas><input type="text" name="picture" id="pic${version.id}" hidden value=${version.items}></td>
+                        <td><a href="/viewDrawingVersion?drawingId=${drawingId}&versionId=${version.id}" class="editButton">${version.date}</a></td>
+                        <c:if test="${isOwner}">
+                            <td><a href="/makeCurrent?drawingId=${drawingId}&versionId=${version.id}" class="editButton">Make current</a></td>
+                            <td><a href="/deleteVersion?id=${drawingId}&versionId=${version.id}" class="editButton">Delete</a></td>
+                        </c:if>    
                     </tr>
         </c:forEach>
             </tbody>

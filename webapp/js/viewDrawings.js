@@ -8,19 +8,23 @@ let canvases = document.getElementsByClassName("drawingCanvas")
 let selectors = document.getElementsByClassName("selector");
 let drawingIds = document.getElementById("drawingIds");
 let selected = {};
-addButton.onclick = function(){
+
+if(addButton != null){
+  addButton.onclick = function(){
     nameInput.value = "New_Drawing";
     nameForm.setAttribute("action", "/addDrawing");
     nameMenu.style.display = "block";
 }
-
-fuseButton.onclick = function(){
-   drawingIds.value = JSON.stringify(selected);
-    nameInput.value = "New_Drawing";
-    nameForm.setAttribute("action", "/fuse");
-    nameMenu.style.display = "block";
 }
 
+if(fuseButton != null){
+  fuseButton.onclick = function(){
+    drawingIds.value = JSON.stringify(selected);
+     nameInput.value = "New_Drawing";
+     nameForm.setAttribute("action", "/fuse");
+     nameMenu.style.display = "block";
+ }
+}
 
 window.onclick = function(event) {
     if (event.target == nameMenu) {

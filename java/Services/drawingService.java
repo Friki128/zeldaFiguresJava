@@ -149,7 +149,8 @@ public class drawingService {
         return drawingDAO.getEarliestVersion(drawingId, user.getId());
     }
 
-    public void makeCurrentVersion(int drawingId, int versionId,user user) throws versionDoesNotExistException, drawingDoesNotExistException, notPublicException{
+    public void makeCurrentVersion(int drawingId, int versionId,user user) throws versionDoesNotExistException, drawingDoesNotExistException, notPublicException, notOwnerException {
+        if(!isUserOwnerOfDrawing(user, drawingId)) throw new notOwnerException();
         drawingVersion version = getVersion(drawingId, versionId, user);
         version.setId(nextVersionId());
     }
