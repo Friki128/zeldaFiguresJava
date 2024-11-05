@@ -84,15 +84,23 @@ clearButton.onclick = function () {
 }
 
 document.onmousemove = function(event){
-    let x = getPercentage(event.clientX - Xoffset);
-    let y = getPercentage(event.clientY - Yoffset);
-    if(pencilStatus){
-    positions.push([x,y]);
-   }
+    if(pencilStatus == true){
+        let x = getPercentage(event.clientX - Xoffset);
+        let y = getPercentage(event.clientY - Yoffset);
+        positions.push([x,y]);
+        let pencil = {
+            "id": currentFigureId,
+            "type": drawingType.value,
+            "positions": positions,
+            "color": color.value
+        }
+        jsonList[currentFigureId] = pencil
+        drawInCanvas(canvas, jsonList)
+    }
 }
 
 document.onmouseup = function(){
-    if(pencilStatus){
+    if(pencilStatus == true && positions != []){
         pencilStatus = false;
         let pencil = {
             "id": currentFigureId,
@@ -101,8 +109,16 @@ document.onmouseup = function(){
             "color": color.value
         }
         positions = [];
-        jsonList[currentFigureId] = pencil;
-        updateDrawing();
+        jsonList[currentFigureId] = pencil
+        updateDrawing()
+    }
+}
+
+canvas.onmousedown = function(event){
+    let x = getPercentage(event.clientX - Xoffset);
+    let y = getPercentage(event.clientY - Yoffset);
+    if(pencilStatus == false && drawingType.value == "pencil"){
+        pencilStatus = true;
     }
 }
 
@@ -142,8 +158,6 @@ canvas.onclick = function(event){
             }
             break;
         case "pencil":
-            pencilStatus = true;
-            positions = [];
             break;
         default:
             let figure = {

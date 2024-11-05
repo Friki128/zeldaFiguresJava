@@ -13,6 +13,7 @@ isELIgnored="false"
     <title>Draw</title>
 </head>
 <body>
+    <%@include file="./nav-bar.jsp" %>
     <h1 class="nameText">${name}</h1>
     <div class="editDrawingBase">
         <div class="editDrawingInputs">
@@ -45,7 +46,7 @@ isELIgnored="false"
             </div>
             <div class="editDiv hidden" id="pointsDiv">
                 <label for="points">Points</label>
-                <input type="number" name="points" id="points">
+                <input type="number" name="points" id="points" value="7">
             </div>
             
         </div>

@@ -35,7 +35,8 @@ isELIgnored="false"
         <c:forEach var="drawing" items="${drawings}" >
             <div class="drawingDiv">
                 <div class="canvasBox">
-                    <canvas class="drawingCanvas" drawing=${drawing.picture}></canvas>
+                    <canvas class="drawingCanvas" id="${drawing.drawingId}" height="400px" width="400px"></canvas>
+                    <input type="text" name="picture" class="picture" id="pic${drawing.drawingId}" hidden value=${drawing.picture}>
                     <c:if test="${mode =='user'}">
                     <label>
                         <input type="checkbox" name="selector" id="selector" drawingId="${drawing.drawingId}" class="selector">
@@ -46,6 +47,6 @@ isELIgnored="false"
             </div>
         </c:forEach>
     </div>
-    <script src="/js/viewDrawings.js"></script>
+    <script type="module" src="/js/viewDrawings.js"></script>
 </body>
 </html>
