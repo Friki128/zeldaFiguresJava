@@ -1,4 +1,6 @@
 import { drawInCanvas } from "./loadDrawing.js";
+import { getDrawing } from "./getDrawing.js";
+import { updateVersion } from "./addVersion.js";
 let picture = document.getElementById("picture");
 let drawingType = document.getElementById("type");
 let color = document.getElementById("color");
@@ -12,7 +14,8 @@ let points = document.getElementById("points");
 let pointsDiv = document.getElementById("pointsDiv");
 let heightDiv = document.getElementById("heightDiv");
 let filledDiv = document.getElementById("filledDiv");
-let jsonList = JSON.parse(picture.value)
+let id = document.getElementById("id");
+let jsonList = "{}"
 let currentFigureId = 0;
 let deleteButtons;
 let pencilStatus = false;
@@ -30,6 +33,7 @@ function getPercentage(value){
 
 function updateDrawing(){
     picture.value = JSON.stringify(jsonList);
+    updateVersion(id.value, JSON.stringify(jsonList));
     currentFigureId = drawInCanvas(canvas, jsonList);
     updateList();
 }
@@ -176,4 +180,9 @@ canvas.onclick = function(event){
     updateDrawing();
 }
 
-updateDrawing();
+async function start(){
+    let drawing = await getDrawing(id.value);
+    jsonList = drawing;
+    updateDrawing();
+}
+start();

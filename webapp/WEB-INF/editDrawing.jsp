@@ -59,8 +59,8 @@ isELIgnored="false"
             <button id="clearButton" class="generalButton">Clear</button>
             <form action="/addVersion" method="post">
                 <input type="number" name="id" id="id" hidden value="${drawingId}">
-                <input type="text" name="picture" id="picture" hidden value=${picture}>
-                <input type="submit" value="Save" class="generalButton">
+                <input type="text" name="picture" id="picture" hidden>
+                <input type="submit" value="Add Version" class="generalButton">
             </form>
         </div>
     </div>

@@ -154,4 +154,9 @@ public class drawingService {
         drawingVersion version = getVersion(drawingId, versionId, user);
         version.setId(nextVersionId());
     }
+
+    public void updateVersion(int drawingId, String picture, user user) throws drawingDoesNotExistException, notPublicException {
+        drawingVersion version = getLatestVersion(drawingId, user);
+        version.setItems(picture);
+    }
 }
