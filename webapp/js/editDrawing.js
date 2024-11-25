@@ -26,6 +26,7 @@ let dragging = false;
 let lineInitialX = 0;
 let lineInitialY = 0;
 let positions = [];
+let version = []
 let canvasBound = canvas.getBoundingClientRect();
 let selectedFigure = null;
 const Yoffset = canvasBound.top;
@@ -45,7 +46,7 @@ function updateDrawing(){
 function updateList(){
     let result = "";
     for(let figure in jsonList){
-        result += "<div class=\"logItem\"><Button class=\"logDeleteButton\" id=\""+ figure +"\">X</Button><p>" + jsonList[figure].type + "</p></div>"
+        result += "<div class=\"logItem\"><Button class=\"logDeleteButton\" id=\""+ figure +"\">X</Button><p class=\"logName\" id=\"" + figure +"\">" + jsonList[figure].type + "</p></div>"
     }
     itemList.innerHTML = result;
     deleteButtons = document.getElementsByClassName("logDeleteButton");
@@ -53,6 +54,14 @@ function updateList(){
         deleteButtons[i].addEventListener('click', function() {
             removeFigure(this.id);
         });
+    }
+    let logNames = document.getElementsByClassName("logName");
+    for(let i=0; i<logNames.length;i++){
+        logNames[i].addEventListener('click', function(){
+            selectedFigure = jsonList[this.id]
+            setInputsValue(selectedFigure);
+            changeInputs(selectedFigure.type, true)
+        })
     }
     }
 
@@ -64,22 +73,22 @@ function removeFigure(id){
 
 drawingType.onchange = function(){
     selectedFigure = null
-    changeInputs(drawingType.value);
+    changeInputs(drawingType.value, false);
 }
 
-function changeInputs(value){
+function changeInputs(value, edit){
     switch(value){
         case "star":
-        changeVisibility(false, true, true, false);
+        changeVisibility(false, true, true, edit);
         break;
         case "line":
         case "pencil":
-            changeVisibility(false, false, false, false);
+            changeVisibility(false, false, false, edit);
             break;
         case "select":
-            changeVisibility(true, true, true, true)
+            changeVisibility(true, true, true, edit)
         default:
-            changeVisibility(true, true, false, false);
+            changeVisibility(true, true, false, edit);
             break;
     }
 }
@@ -87,6 +96,7 @@ function changeInputs(value){
 function setInputsValue(figure){
     color.value = figure.color
     width.value = figure.width
+    filled.value = figure.filled
     switch(figure.type){
         case "star":
             points.value = figure.points
@@ -134,7 +144,12 @@ document.onmousemove = function(event){
 }
 
 document.onmouseup = function(){
-    dragging = false
+    if(dragging == true){
+       // version[versionID] = jsonList.stringify
+        updateDrawing()
+        dragging = false
+    }
+    
     if(pencilStatus == true && positions != []){
         pencilStatus = false;
         let pencil = {
@@ -160,7 +175,7 @@ canvas.onmousedown = function(event){
         console.log(selectedFigure)
         if(selectedFigure != null){
             setInputsValue(selectedFigure);
-            changeInputs(selectedFigure.type)
+            changeInputs(selectedFigure.type, true)
             dragging = true;
         }
     }
