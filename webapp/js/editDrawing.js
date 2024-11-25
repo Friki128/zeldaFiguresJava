@@ -15,15 +15,19 @@ let pointsDiv = document.getElementById("pointsDiv");
 let heightDiv = document.getElementById("heightDiv");
 let filledDiv = document.getElementById("filledDiv");
 let id = document.getElementById("id");
+let updateDiv = document.getElementById("updateDiv");
+let update = document.getElementById("update");
 let jsonList = "{}"
 let currentFigureId = 0;
 let deleteButtons;
 let pencilStatus = false;
 let lineStatus = false;
+let dragging = false;
 let lineInitialX = 0;
 let lineInitialY = 0;
 let positions = [];
 let canvasBound = canvas.getBoundingClientRect();
+let selectedFigure = null;
 const Yoffset = canvasBound.top;
 const Xoffset = canvasBound.left;
 
@@ -59,27 +63,47 @@ function removeFigure(id){
 }
 
 drawingType.onchange = function(){
-    switch(drawingType.value){
+    selectedFigure = null
+    changeInputs(drawingType.value);
+}
+
+function changeInputs(value){
+    switch(value){
         case "star":
-        changeVisibility(false, true, true);
+        changeVisibility(false, true, true, false);
         break;
         case "line":
         case "pencil":
-            changeVisibility(false, false, false);
+            changeVisibility(false, false, false, false);
             break;
+        case "select":
+            changeVisibility(true, true, true, true)
         default:
-            changeVisibility(true, true, false);
+            changeVisibility(true, true, false, false);
             break;
     }
 }
 
-function changeVisibility(heightVisible, filledVisible, pointsVisible){
+function setInputsValue(figure){
+    color.value = figure.color
+    width.value = figure.width
+    switch(figure.type){
+        case "star":
+            points.value = figure.points
+        default:
+            height.value = figure.height
+    }
+}
+
+function changeVisibility(heightVisible, filledVisible, pointsVisible, updateVisible){
     heightDiv.classList.add("hidden");
     filledDiv.classList.add("hidden");
     pointsDiv.classList.add("hidden");
+    updateDiv.classList.add("hidden");
     if(heightVisible) heightDiv.classList.remove("hidden");
     if(filledVisible) filledDiv.classList.remove("hidden");
     if(pointsVisible) pointsDiv.classList.remove("hidden");
+    if(updateVisible) updateDiv.classList.remove("hidden");
 }
 
 clearButton.onclick = function () {
@@ -88,9 +112,9 @@ clearButton.onclick = function () {
 }
 
 document.onmousemove = function(event){
+    let x = getPercentage(event.clientX - Xoffset);
+    let y = getPercentage(event.clientY - Yoffset);
     if(pencilStatus == true){
-        let x = getPercentage(event.clientX - Xoffset);
-        let y = getPercentage(event.clientY - Yoffset);
         positions.push([x,y]);
         let pencil = {
             "id": currentFigureId,
@@ -101,9 +125,16 @@ document.onmousemove = function(event){
         jsonList[currentFigureId] = pencil
         drawInCanvas(canvas, jsonList)
     }
+    if(dragging && selectedFigure != null){
+        selectedFigure.x = x
+        selectedFigure.y = y
+        jsonList[selectedFigure.id]= selectedFigure
+        drawInCanvas(canvas, jsonList)
+    }
 }
 
 document.onmouseup = function(){
+    dragging = false
     if(pencilStatus == true && positions != []){
         pencilStatus = false;
         let pencil = {
@@ -124,16 +155,34 @@ canvas.onmousedown = function(event){
     if(pencilStatus == false && drawingType.value == "pencil"){
         pencilStatus = true;
     }
+    if(drawingType.value == "select"){
+        selectedFigure = findSelected(x,y)
+        console.log(selectedFigure)
+        if(selectedFigure != null){
+            setInputsValue(selectedFigure);
+            changeInputs(selectedFigure.type)
+            dragging = true;
+        }
+    }
 }
 
 canvas.onclick = function(event){
     let x = getPercentage(event.clientX - Xoffset);
     let y = getPercentage(event.clientY - Yoffset);
-    switch(drawingType.value){
+    updateFigureList(currentFigureId, x, y, drawingType.value);
+}
+
+update.onclick = function(){
+    if(selectedFigure == null) return;
+    updateFigureList(selectedFigure.id, selectedFigure.x, selectedFigure.y, selectedFigure.type);
+}
+
+function updateFigureList(id, x, y, type){
+    switch(type){
         case "star":
             let star = {
-                "id": currentFigureId, 
-                "type": drawingType.value, 
+                "id": id, 
+                "type": type, 
                 "x": x, 
                 "y": y, 
                 "width": width.value, 
@@ -141,20 +190,20 @@ canvas.onclick = function(event){
                 "color": color.value,
                 "points": points.value
             }
-            jsonList[currentFigureId] = star;
+            jsonList[id] = star;
             break;
         case "line":
             if(lineStatus){
                 lineStatus = false;
                 let line = {
-                    "id": currentFigureId, 
-                    "type":drawingType.value, 
+                    "id": id, 
+                    "type":type, 
                     "x1": lineInitialX, 
                     "y1": lineInitialY, 
                     "x2": x, 
                     "y2": y
                 }
-                jsonList[currentFigureId] = line;
+                jsonList[id] = line;
             }else{
                 lineStatus = true;
                 lineInitialX = x;
@@ -163,10 +212,12 @@ canvas.onclick = function(event){
             break;
         case "pencil":
             break;
+        case "select":
+            break    
         default:
             let figure = {
-                "id": currentFigureId, 
-                "type": drawingType.value, 
+                "id": id, 
+                "type": type, 
                 "x": x, 
                 "y": y, 
                 "width": width.value, 
@@ -174,10 +225,30 @@ canvas.onclick = function(event){
                 "filled": filled.checked, 
                 "color": color.value
             }
-            jsonList[currentFigureId] = figure;
+            jsonList[id] = figure;
             break;
     }
     updateDrawing();
+
+}
+
+function findSelected(x, y){
+    let result = null;
+    for(let figure in jsonList){
+        let object = jsonList[figure]
+        if(object.type != "line" && object.type != "pencil"){
+            let positions = [object.x, object.y]
+            let figureWidth = object.width
+            let figureHeight = figureWidth
+            if(object.type != "star") figureHeight = object.height
+            if(collided(positions, [x,y], figureWidth, figureHeight))result = object
+        } 
+    }
+    return result;
+}
+
+function collided(position, mousePosition, width, height){
+    return ((mousePosition[0] > position[0] - width/2) && (mousePosition[0] < position[0] + width/2)) && ((mousePosition[1] > position[1] - height/2) && (mousePosition[1] < position[1] + height/2))
 }
 
 async function start(){

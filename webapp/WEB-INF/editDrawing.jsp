@@ -26,6 +26,7 @@ isELIgnored="false"
                     <option value="star">Star</option>
                     <option value="line">Line</option>
                     <option value="pencil">Pencil</option>
+                    <option value="select">Selec</option>
                 </select>
             </div>
             <div class="editDiv">
@@ -47,6 +48,10 @@ isELIgnored="false"
             <div class="editDiv hidden" id="pointsDiv">
                 <label for="points">Points</label>
                 <input type="number" name="points" id="points" value="7">
+            </div>
+            <div class="editDiv hidden" id="updateDiv">
+                <label for="edit">Update</label>
+                <input type="button" value="Update" id="update">
             </div>
             
         </div>

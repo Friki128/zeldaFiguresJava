@@ -18,14 +18,11 @@ public class updateVersion extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         user user = (Model.user) req.getSession().getAttribute("user");
-        System.out.println(req.getParameter("id"));
         int id = Integer.parseInt(req.getParameter("id"));
         String picture = req.getParameter("picture");
         try {
-            System.out.println("hola");
             drawingService.updateVersion(id, picture, user);
         } catch (drawingDoesNotExistException e) {
-            System.out.println("adios");
             errorController.redirectError("The image doesn't exist.", req, resp);
         } catch (notPublicException e) {
             errorController.redirectError("The image isn't public.", req, resp);

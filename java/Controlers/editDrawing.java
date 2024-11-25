@@ -28,11 +28,6 @@ public class editDrawing extends HttpServlet {
             drawingVersion version = drawingService.getLatestVersion(drawingId, user);
             req.setAttribute("name", drawing.getName());
             req.setAttribute("drawingId", drawing.getId());
-            if(version == null) {
-                req.setAttribute("picture", "{}");
-            }else {
-                req.setAttribute("picture", version.getItems());
-            }
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/editDrawing.jsp");
             requestDispatcher.forward(req, resp);
         } catch (notPublicException e) {
