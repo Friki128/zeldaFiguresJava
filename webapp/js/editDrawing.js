@@ -17,6 +17,8 @@ let filledDiv = document.getElementById("filledDiv");
 let id = document.getElementById("id");
 let updateDiv = document.getElementById("updateDiv");
 let update = document.getElementById("update");
+let undo = document.getElementById("undo");
+let redo = document.getElementById("redo");
 let jsonList = "{}"
 let currentFigureId = 0;
 let deleteButtons;
@@ -27,6 +29,7 @@ let lineInitialX = 0;
 let lineInitialY = 0;
 let positions = [];
 let version = []
+let versionId = 0;
 let canvasBound = canvas.getBoundingClientRect();
 let selectedFigure = null;
 const Yoffset = canvasBound.top;
@@ -116,8 +119,35 @@ function changeVisibility(heightVisible, filledVisible, pointsVisible, updateVis
     if(updateVisible) updateDiv.classList.remove("hidden");
 }
 
+function addVersion(){
+    clearVersions()
+    versionId += 1
+    version.push(JSON.stringify(jsonList))
+}
+
+function clearVersions(){
+    for(let i = versionId; i<version.length-1 ;i++){
+        version.pop()
+    }
+}
+
+undo.onclick = function(){
+    versionId -= 1
+    if(versionId < 0) versionId = 0
+    jsonList = JSON.parse(version[versionId])
+    updateDrawing()
+}
+
+redo.onclick = function(){
+    versionId += 1
+    if(versionId >= version.length) versionId = version.length - 1
+    jsonList = JSON.parse(version[versionId])
+    updateDrawing()
+}
+
 clearButton.onclick = function () {
     jsonList = {}; 
+    addVersion()
     updateDrawing();
 }
 
@@ -145,7 +175,7 @@ document.onmousemove = function(event){
 
 document.onmouseup = function(){
     if(dragging == true){
-       // version[versionID] = jsonList.stringify
+        addVersion()
         updateDrawing()
         dragging = false
     }
@@ -160,6 +190,7 @@ document.onmouseup = function(){
         }
         positions = [];
         jsonList[currentFigureId] = pencil
+        addVersion()
         updateDrawing()
     }
 }
@@ -243,6 +274,7 @@ function updateFigureList(id, x, y, type){
             jsonList[id] = figure;
             break;
     }
+    addVersion()
     updateDrawing();
 
 }
@@ -269,6 +301,8 @@ function collided(position, mousePosition, width, height){
 async function start(){
     let drawing = await getDrawing(id.value);
     jsonList = drawing;
+    version[0] = JSON.stringify(jsonList)
+    versionId = 0
     updateDrawing();
 }
 start();

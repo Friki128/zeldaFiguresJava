@@ -18,6 +18,10 @@ isELIgnored="false"
     <div class="editDrawingBase">
         <div class="editDrawingInputs">
             <div class="editDiv">
+                <input type="button" value="undo" id="undo">
+                <input type="button" value="redo" id="redo">
+            </div>
+            <div class="editDiv">
                 <label for="type">Type</label>
                 <select name="type" id="type">
                     <option value="rectangle" selected>Rectangle</option>
