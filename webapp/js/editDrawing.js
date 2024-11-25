@@ -40,6 +40,7 @@ function getPercentage(value){
 }
 
 function updateDrawing(){
+    saveEditor()
     picture.value = JSON.stringify(jsonList);
     updateVersion(id.value, JSON.stringify(jsonList));
     currentFigureId = drawInCanvas(canvas, jsonList);
@@ -298,11 +299,28 @@ function collided(position, mousePosition, width, height){
     return ((mousePosition[0] > position[0] - width/2) && (mousePosition[0] < position[0] + width/2)) && ((mousePosition[1] > position[1] - height/2) && (mousePosition[1] < position[1] + height/2))
 }
 
+function saveEditor(){
+    localStorage.setItem("points", points.value)
+    localStorage.setItem("width", width.value)
+    localStorage.setItem("height", height.value)
+    localStorage.setItem("color", color.value)
+    localStorage.setItem("type", drawingType.value)
+    localStorage.setItem("filled", filled.value)
+    save
+}
+
 async function start(){
     let drawing = await getDrawing(id.value);
     jsonList = drawing;
     version[0] = JSON.stringify(jsonList)
     versionId = 0
+    points.value = localStorage.getItem("points")
+    width.value = localStorage.getItem("width")
+    height.value = localStorage.getItem("height")
+    filled.value = localStorage.getItem("filled")
+    drawingType.value = localStorage.getItem("type")
+    color.value = localStorage.getItem("color")
     updateDrawing();
+    
 }
 start();
